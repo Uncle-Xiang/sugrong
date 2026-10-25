@@ -1,0 +1,332 @@
+/* =========================================================================
+   戎糖小记 · tools.css（工具箱 页面独有样式）
+   只放 tools.html 才用到的规则：
+     页首大图的页面私有部分 / 首图文字层 / 「敬请期待」卡片
+   全站公共部分（设计令牌 / reset / 版式与按钮 / 导航 / 页脚 / 页首大图 /
+   滚动进场 / 刷新加载特效）一律在 css/common.css，这里不重复。
+   ========================================================================= */
+
+/* =========================================================================
+   页首大图（静止版：一屏高的照片首图 + 居中文字，不随滚动收缩）
+   外观、蒙版、入场推近都用公共的 .card-hero_* ；这里只留私有三样：
+   ① 盒子高度 100svh（本页没有滚动收缩，不需要 --card-hero-len）
+   ② 卡片铺满盒子 + 文字层居中
+   ③ 窄屏取景框改回居中（公共默认 88% 是给 about/contact 那种右侧人像照片的，
+      at1.jpg 是居中构图，取 88% 会把人物裁掉一半）
+   **刻意不放 [data-hero-progress]**：app.js 找不到它就不写 --progress，
+   公共段 scale(1 - progress*0.4) / 图片反向放大都停在 1，首图原样随页面滚走。
+   ========================================================================= */
+.tools-hero_box {
+  position: relative;
+  isolation: isolate;          /* .card-hero_bg 是 z-index:-1，要有层叠上下文兜着 */
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  height: 100svh;
+}
+.tools-hero_bg { position: absolute; inset: 0; }
+
+/* 蒙版加强（页面私有）：公共的三条渐变是给 about/contact 那种偏暗的人像照片配的，
+   at1.jpg 是浅粉底的插画，白字压上去只剩轮廓。这里在文字正后方加一层径向暗池，
+   四周保持明亮——照片还是亮的，只有字底下沉下来。 */
+.tools-hero .card-hero_scrim {
+  background:
+    radial-gradient(76% 66% at 50% 50%,
+      rgba(46, 18, 26, .56) 0%,
+      rgba(46, 18, 26, .40) 44%,
+      rgba(46, 18, 26, .16) 72%,
+      rgba(46, 18, 26, 0) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, .34) 0%, rgba(0, 0, 0, .04) 32%),
+    linear-gradient(0deg, rgba(0, 0, 0, .26) 0%, rgba(0, 0, 0, .02) 30%);
+}
+/* 字压在插画上，投影要更实一点才撑得住 */
+.tools-hero_text .hero-eyebrow { text-shadow: 0 1px 8px rgba(0, 0, 0, .55); }
+.tools-hero_text .hero-title { text-shadow: 0 3px 26px rgba(0, 0, 0, .55); }
+.tools-hero_text .hero-copy { color: #fff; text-shadow: 0 2px 12px rgba(0, 0, 0, .6); }
+
+/* 文字层：水平居中、垂直居中 */
+.tools-hero_text {
+  position: relative;
+  width: 100%;
+  padding-inline: clamp(16px, 5vw, 24px);
+  text-align: center;
+  color: #fff;
+}
+.tools-hero_text > .shell { width: 100%; }
+/* 公共 .hero-copy 有 max-width: 38em，居中时要把盒子本身也居中 */
+.tools-hero_text .hero-copy { margin-inline: auto; }
+
+@media (min-width: 768px) {
+  .tools-hero_text { padding-inline: 40px; }
+  /* 一屏照片上「工具箱」三个字单看会显小，比 .hero-title--page 的 54px 再放大一档 */
+  .tools-hero_text .hero-title { font-size: clamp(44px, 5.2vw, 78px); }
+  .tools-hero_text .hero-copy { font-size: clamp(16px, 1.15vw, 20px); }
+  /* 三行之间也松一档，别挤成一小块 */
+  .tools-hero_text .hero-eyebrow { margin-bottom: clamp(12px, 1.8vh, 20px); }
+}
+
+/* 窄屏取景框：居中构图的插画，人物在正中 */
+.tools-hero .card-hero_img { object-position: 50% 42%; }
+
+/* =========================================================================
+   「敬请期待」卡片
+   ========================================================================= */
+.tools-soon-section { padding-top: clamp(52px, 8vh, 96px); }
+
+.soon-card {
+  max-width: 720px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: clamp(30px, 4vw, 58px) clamp(20px, 3.4vw, 52px);
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 吉祥物：用淡粉圆底托住，透明 PNG 也不会显得飘在纸面上
+   注意 height:auto 不能省——<img> 上写了 height="265" 的属性，不覆盖的话
+   aspect-ratio 会因为宽高都确定而失效，圆底被拉成竖椭圆 */
+.soon-mascot {
+  width: clamp(84px, 9vw, 116px);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  padding: 8px;
+  border-radius: 50%;
+  background: var(--pink-mist);
+  margin-bottom: clamp(18px, 2.4vw, 26px);
+}
+
+.soon-eyebrow { margin-bottom: clamp(8px, 1vw, 12px); }
+.soon-title { font-size: clamp(24px, 2.6vw, 34px); }
+.soon-lede { margin-top: clamp(12px, 1.6vw, 18px); }
+
+.soon-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(10px, 1.4vw, 16px);
+  margin-top: clamp(24px, 3.2vw, 36px);
+}
+
+@media (max-width: 560px) {
+  .soon-card { padding: 28px 20px 30px; border-radius: var(--radius); }
+  /* 手动 <br> 在窄屏会把「吧～」挤成孤零零一行，交给自动换行 */
+  .soon-lede br { display: none; }
+  .soon-lede { text-wrap: pretty; }
+  .soon-actions { flex-direction: column; align-items: stretch; }
+  .soon-actions .btn { justify-content: center; }
+}
+
+/* =========================================================================
+   工具入口卡片
+   ========================================================================= */
+.section-head_lede { margin-top: clamp(8px, 1vw, 12px); }
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+  gap: clamp(14px, 2vw, 22px);
+}
+.tool-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: clamp(18px, 2.2vw, 26px);
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+}
+.tool-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow);
+  border-color: var(--pink-soft);
+}
+.tool-card.is-soon { opacity: .76; }
+.tool-card_icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: var(--coral-deep);
+  background: var(--pink-mist);
+}
+.tool-card_icon svg { width: 24px; height: 24px; }
+.tool-card_body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.tool-card_name { font-size: 16.5px; font-weight: 700; color: var(--ink); }
+.tool-card_desc { font-size: 13.5px; line-height: 1.7; color: var(--ink-3); }
+.tool-card_tag {
+  margin-left: auto;
+  flex: none;
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  color: var(--coral-deep);
+  background: var(--pink-mist);
+  border: 1px solid rgba(255, 188, 197, .5);
+}
+
+/* =========================================================================
+   工具面板：拖拽区 + 选项 + 结果
+   ========================================================================= */
+.tool-panel {
+  max-width: 880px;
+  margin-inline: auto;
+  padding: clamp(18px, 2.6vw, 32px);
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.tool-drop {
+  display: block;
+  padding: clamp(22px, 3vw, 36px);
+  border: 1.5px dashed var(--pink);
+  border-radius: var(--radius);
+  background: var(--pink-mist-2);
+  text-align: center;
+  cursor: pointer;
+  transition: background .3s var(--ease), border-color .3s var(--ease);
+}
+.tool-drop:hover,
+.tool-drop.is-over { background: var(--pink-mist); border-color: var(--coral); }
+.tool-drop_text { display: flex; flex-direction: column; gap: 6px; }
+.tool-drop_text b { font-size: 15.5px; color: var(--ink); }
+.tool-drop_text em { font-style: normal; font-size: 12.5px; color: var(--ink-3); }
+
+.tool-opts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: clamp(12px, 1.6vw, 18px);
+  margin-top: clamp(16px, 2vw, 22px);
+}
+.tool-opt { display: flex; flex-direction: column; gap: 6px; min-width: 132px; }
+.tool-opt > span { font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.tool-opt > span b { color: var(--coral-deep); font-weight: 700; }
+.tool-select,
+.tool-input {
+  height: 38px;
+  padding: 0 12px;
+  font-size: 13.5px;
+  color: var(--ink);
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+}
+.tool-range { width: 100%; accent-color: var(--coral); }
+.tool-opts .btn { margin-left: auto; }
+
+.tool-note { margin-top: 14px; font-size: 13px; color: var(--ink-3); }
+.tool-note.is-bad { color: var(--coral-deep); }
+
+.tool-results { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.tool-results--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 14px;
+}
+
+/* 图片工具：一行一张 */
+.tool-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  background: var(--pink-mist-2);
+}
+.tool-row_thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #fff;
+  border: 1px solid var(--line-soft);
+}
+.tool-row_main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.tool-row_name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tool-row_meta { font-size: 12px; color: var(--ink-3); }
+.tool-row_meta b { color: var(--coral-deep); }
+.tool-row_meta s { color: var(--ink-4); }
+.tool-row_dl {
+  flex: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--coral-deep);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 188, 197, .55);
+  background: #fff;
+}
+.tool-row_dl:hover { background: var(--pink-mist); }
+
+/* PDF 工具：一页一张卡 */
+.tool-shot {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  overflow: hidden;
+}
+.tool-shot img { width: 100%; height: auto; display: block; }
+.tool-shot_bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-top: 1px solid var(--line-soft);
+}
+.tool-shot_bar span { font-size: 12px; color: var(--ink-3); }
+.tool-shot_dl {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--coral-deep);
+  text-decoration: none;
+  border-bottom: 1px solid var(--pink);
+}
+.tool-shot_dl:hover { color: var(--coral); }
+
+.tool-progress {
+  margin-top: 16px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--pink-mist);
+  overflow: hidden;
+}
+.tool-progress i {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--rose), var(--coral));
+  transition: width .3s var(--ease);
+}
+
+@media (max-width: 560px) {
+  .tool-opts { flex-direction: column; align-items: stretch; }
+  .tool-opts .btn { margin-left: 0; justify-content: center; }
+  .tool-opt { min-width: 0; }
+  .tool-row_thumb { width: 44px; height: 44px; }
+  .tool-row { flex-wrap: wrap; }
+  .tool-row_dl { margin-left: auto; }
+}

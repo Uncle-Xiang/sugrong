@@ -1,0 +1,41 @@
+name = "sugrong"
+main = "danmaku-worker.js"
+compatibility_date = "2026-10-21"
+
+# 留言墙数据库：sugrong（uuid 05cde7b4-5c35-4057-9796-a609031c423f）
+# 旧库 sugrong-contact 已于 2026-10-22 删除，数据不再迁移，全部由 schema.sql + seed-works.sql 重建
+[[d1_databases]]
+binding = "DB"
+database_name = "sugrong"
+database_id = "05cde7b4-5c35-4057-9796-a609031c423f"
+
+# 自定义域名：*.workers.dev 在国内经常连不上，绑到自己域名下稳定得多。
+# 用 custom_domain 方式，Cloudflare 会自动把 api.sugrong.com 的 DNS 记录建好。
+# 注意：www.sugrong.com 也指向这个 Worker（同一个部署同时喂网页和接口），
+# 所以下面的 [assets] 一旦指错目录，整站会立刻 404 —— 改之前先想清楚。
+[[routes]]
+pattern = "api.sugrong.com"
+custom_domain = true
+
+# 站点主域也挂在这个 Worker 上（2026-10-22 从旧的 sugrong Worker 合并过来）：
+# 之前 www 和 api 是两个 Worker、两套代码，改一份另一份就是旧的，很容易出现「部署了但页面没变」。
+# 现在一个 Worker 同时喂网页和接口，一次部署两边一起更新。
+[[routes]]
+pattern = "www.sugrong.com"
+custom_domain = true
+
+# 静态资源：站点根目录（和 index.html 同级），不是 cloudflare/ 自己。
+# 「./」是相对本文件所在目录，会变成 cloudflare/ —— 那个目录里没有 index.html，
+# 一部署整站就没了。用「../」才是仓库根。
+# 排除清单写在仓库根的 .assetsignore 里（cloudflare / verify / .workbuddy 等）。
+[assets]
+directory = "../"
+# 找不到文件时把请求交给 Worker：/api/* 由脚本处理，/ 的兜底跳转也归它
+not_found_handling = "none"
+# R2 图片桶：binding 名留成 sugrong（等于 env.sugrong），目前 Worker 代码**没有用到它**，
+# 只在需要做「后台上传」之类的功能时才会用；网页读图走的是桶的自定义域 img.sugrong.com，
+# 那条路完全不经过 Worker，所以这个绑定去掉也不影响图片显示。
+[[r2_buckets]]
+binding = "sugrong"
+bucket_name = "sugrong"
+

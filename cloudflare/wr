@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# =============================================================================
+# 本地 wrangler 快捷入口：优先用工作区里已装好的那份，装不到再退回 npx
+# 用法：./wr login | ./wr whoami | ./wr deploy | ./wr d1 list ...
+# （等价于 npx wrangler <参数>，只是不用每次联网下载）
+# =============================================================================
+set -euo pipefail
+
+NODE="/c/Users/10691/.workbuddy/binaries/node/versions/22.22.2-6/node"
+WR="/c/Users/10691/.workbuddy/binaries/node/workspace/node_modules/wrangler/bin/wrangler.js"
+MODULES="C:/Users/10691/.workbuddy/binaries/node/workspace/node_modules"
+
+if [ -f "$WR" ] && [ -x "$NODE" ]; then
+  export NODE_PATH="$MODULES"
+  exec "$NODE" "$WR" "$@"
+fi
+
+echo "工作区里没有 wrangler，改用 npx（第一次会下载，稍等）" >&2
+exec npx --yes wrangler@4 "$@"

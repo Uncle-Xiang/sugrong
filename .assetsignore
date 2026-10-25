@@ -1,0 +1,17 @@
+# Workers 静态资源排除清单（配合 cloudflare/wrangler.toml 的 [assets] directory = "../"）
+# 只影响「上传哪些文件给 Cloudflare」，不影响 Git（Git 用根目录的 .gitignore）
+
+# 后端源码与本地配置，不该被当成网页发出去
+cloudflare/
+.cloudflare/
+
+# 本地调试产物
+verify/
+.workbuddy/
+
+# 说明与配置
+*.md
+.gitignore
+.git/
+.assetsignore
+_extract.txt

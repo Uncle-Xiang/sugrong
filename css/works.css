@@ -1,0 +1,358 @@
+/* =========================================================================
+   戎糖小记 · works.css（我的作品 页面独有样式）
+   只放 works.html 才用到的规则：
+     页首大图的页面私有部分 / 作品网格 / 作品卡片（图 + 标题 + 摘要 + 卡脚）/
+     筛选片子 / 筹备中徽章 / 本页两处间距
+   全站公共部分（设计令牌 / reset / 版式与按钮 / 导航 / 页脚 / 页首大图 /
+   滚动进场）一律在 css/common.css，这里不重复。
+   ========================================================================= */
+
+/* =========================================================================
+   页首大图（静止版：一屏高的照片卡片，不随滚动收缩）
+   外观与蒙版用公共的 .card-hero_* ；这里只留私有三样：
+   ① 盒子高度 100svh（原来靠 .card-hero_scroll 的 --card-hero-len:150 撑出滚动空间，现在不需要了）
+   ② 卡片铺满盒子（position:absolute + inset:0）
+   ③ isolation：给盒子建层叠上下文，卡片上的负 z-index 才不会掉到页面背后
+   **本页刻意不放 [data-hero-progress]**：app.js 找不到它就不写 --progress，
+   公共段的 scale(1 - progress*0.4) / 图片 scale(1 + progress*0.4) 都停在 1，
+   于是首图原样随页面滚走。想改回收缩动画，见 works.html 里那行注释。
+   works.jpg 里已经压了「我的作品 / My Works」的标题字，所以首图不叠 HTML 文字。
+   ========================================================================= */
+.works-hero_box {
+  position: relative;
+  isolation: isolate;
+  height: 100vh;
+  height: 100svh;
+}
+.works-hero_bg { position: absolute; inset: 0; }
+
+/* 首图底部要放箭头和小字，而 works.jpg 下缘是浅粉的桌面与糖果，
+   公共那三层渐变压不住：这里在保持上部观感不变的前提下，额外加一条底部压暗带
+   （0 -> 24% 处收干净），并沿用公共原有的三条。 */
+.works-hero .card-hero_scrim {
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, .46) 0%, rgba(0, 0, 0, .20) 10%, rgba(0, 0, 0, 0) 24%),
+    linear-gradient(180deg, rgba(0, 0, 0, .30) 0%, rgba(0, 0, 0, 0) 34%),
+    linear-gradient(0deg, rgba(0, 0, 0, .32) 0%, rgba(0, 0, 0, 0) 40%),
+    rgba(0, 0, 0, .26);
+}
+
+/* =========================================================================
+   首图底部的向下箭头（复刻首页那枚 .scroll-cue，下面多配一行小字）
+   箭头本体、上下浮动关键帧、滚过 120px 自动淡出（app.js）全部复用公共的
+   .scroll-cue；本页只补三样：
+   ① flex 竖排 + 把 line-height 从公共的 0 改回 1.5（公共那行是给纯 SVG 用的）
+   ② 小字的字号 / 字距
+   ③ 更实的投影 —— 底部虽然有压暗带，白字再加一层投影更稳
+   ========================================================================= */
+.works-hero_cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, .9vh, 10px);
+  line-height: 1.5;
+  text-decoration: none;
+  z-index: 1;
+  filter: drop-shadow(0 2px 10px rgba(60, 24, 32, .6));
+}
+.works-hero_cue-text {
+  font-size: clamp(11.5px, .95vw, 14px);
+  letter-spacing: .26em;
+  text-indent: .26em;      /* 抵消末字后多出的那格字距，视觉上才真正居中 */
+  white-space: nowrap;
+  color: rgba(255, 255, 255, .96);
+}
+.works-hero_cue svg { width: clamp(28px, 2.2vw, 36px); }
+
+/* =========================================================================
+   作品网格
+   ========================================================================= */
+/* 5 张卡在宽屏排 3 列（3 + 2），比 4 列好：不会出现「第二行孤零零一张 + 大片留白」。
+   以后加到 6 张正好 3 + 3，继续增多也会按 3 的倍数自然换行。 */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(18px, 2.2vw, 30px);
+}
+
+/* 小窗（≤900px）改一列：两列时卡片只有 270~400px 宽，16:9 的图缩到 150px 高，
+   标题和摘要全挤在一起。一列之后顺手把卡片限宽在 560px 并居中 ——
+   不然 800px 宽的卡片里一句话就占一行，右边空一大片。 */
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: minmax(0, 560px);
+    justify-content: center;
+  }
+}
+
+/* =========================================================================
+   筛选：类型 / 时间两组片子
+   ========================================================================= */
+.works-filters {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 clamp(18px, 2.2vw, 28px);
+}
+.works-filters[hidden] { display: none; }
+.works-filters_row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.works-filters_row[hidden] { display: none; }
+.works-filters_label {
+  flex: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: var(--ink-3);
+}
+.works-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.works-chip {
+  font: inherit;
+  font-size: 12.5px;
+  letter-spacing: .04em;
+  padding: 5px 15px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--ink-2);
+  transition: transform .25s var(--ease), border-color .25s var(--ease),
+              color .25s var(--ease), background-color .25s var(--ease);
+}
+.works-chip:hover {
+  transform: translateY(-1px);
+  border-color: var(--pink);
+  color: var(--coral-deep);
+}
+.works-chip.is-on {
+  background: linear-gradient(135deg, var(--pink), var(--rose));
+  border-color: transparent;
+  color: #fff;
+}
+.works-filters_count {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+/* 筛掉的卡片：.card 自带 display:flex，会盖掉 [hidden] 的 display:none，得显式压回来 */
+.work-card[hidden] { display: none; }
+
+/* 小窗口：标签和选项分成两行。
+   原来靠 flex-wrap 自动换行，结果是「类型」被孤零零顶到一行、「时间」又没有，两行不一致；
+   这里统一改成标签在上、选项在下，窄屏下更齐整 */
+@media (max-width: 560px) {
+  .works-filters { gap: 14px; }
+  .works-filters_row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .works-filters_count { text-align: left; }
+}
+
+/* =========================================================================
+   作品卡片
+   ========================================================================= */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  /* 悬停上浮用独立的 translate 属性：公共 reveal 用 transform 做位移，
+     两者分开就不会被 `.js [data-reveal].is-in { transform:none }` 盖掉 */
+  translate: 0 0;
+  transition: translate .45s var(--ease), box-shadow .45s var(--ease), border-color .45s var(--ease);
+}
+
+/* 公共 [data-reveal] 的 transition 只写了 opacity / transform，
+   这里把卡片自己的三条过渡一并接上（保留 reveal 的错峰 delay） */
+.js .card[data-reveal] {
+  transition:
+    opacity .9s var(--ease),
+    transform .9s var(--ease) calc(var(--reveal-delay, 0) * 110ms),
+    translate .45s var(--ease),
+    box-shadow .45s var(--ease),
+    border-color .45s var(--ease);
+}
+
+.card:hover {
+  translate: 0 -6px;
+  border-color: var(--pink);
+  box-shadow: var(--shadow);
+}
+
+/* 卡内柔光：光斑坐标由 works.js 写进 --mx / --my，移动到哪就跟到哪 */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 38%),
+              rgba(255, 143, 163, .18), rgba(255, 143, 163, 0) 62%);
+  transition: opacity .5s var(--ease);
+}
+.card:hover::after { opacity: 1; }
+
+.card-media {
+  aspect-ratio: 16 / 9;      /* 与源图 2048×1152 一致，铺满不裁切 */
+  overflow: hidden;
+  background: var(--pink-mist);
+}
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s var(--ease), opacity .6s var(--ease);
+}
+.card:hover .card-media img { transform: scale(1.06); }
+
+/* 懒加载图：解码完成后再淡入，避免「先空后闪」的白块 */
+html.js .card-media img { opacity: 0; }
+html.js .card-media img.is-loaded { opacity: 1; }
+
+/* 布局之后的占位 / 空封面：数据库里的作品可能没配图，缺图就留一块柔粉，
+   保持 16:9 的占位，卡片高度才不会参差 */
+.card-media--empty {
+  background:
+    radial-gradient(120% 120% at 50% 120%, var(--pink) 0%, transparent 60%),
+    var(--pink-mist);
+}
+
+/* 卡片区域的状态提示：接口失败时其实什么都不显示（静态卡片还在），
+   只在管理员自己在后台把作品全隐藏、导致列表为空时才出面说一句 */
+.works-state {
+  margin: 0 0 18px;
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: var(--ink-3);
+  text-align: center;
+}
+.works-state:empty { display: none; }
+.works-state.is-error { color: var(--coral-deep); }
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;                    /* 撑满卡片剩余高度，卡脚才能压到底 */
+  padding: clamp(16px, 1.8vw, 24px);
+}
+
+.card-kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 8px;
+}
+
+/* 卡片头一行：小标签（左） + 发布日期（右）。
+   从原来那个裸 .card-kicker 改成这一层，flex 才能把日期推到右侧 */
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.card-head .card-kicker { margin-bottom: 0; }
+.card-date {
+  flex: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 只作用于摘要段：kicker 也是 p，用直接子元素 + :not 避开字号被覆盖 */
+.card-body > p:not(.card-kicker) {
+  color: var(--ink-2);
+  font-size: 15px;
+  line-height: 1.95;
+  margin-top: 8px;
+}
+
+.card-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--coral-deep);
+}
+.card-more-arrow { transition: transform .3s var(--ease); }
+.card:hover .card-more-arrow { transform: translateX(5px); }
+
+/* 整卡可点：把卡脚链接的可点区域铺满整张卡（键盘焦点仍在链接上） */
+.work-card .card-more::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.work-card .card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  /* 同一行卡片高度被拉齐后，把「卡脚」压到底部，各卡链接落在同一条水平线上 */
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.badge-soon {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--pink-mist);
+  color: var(--rose);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+/* =========================================================================
+   本页两处间距（原文件写在内联 style 上，这里收回样式表）
+   ========================================================================= */
+.works-lede { margin-top: 18px; }
+.works-cta { margin-top: 30px; }
+
+/* =========================================================================
+   响应式
+   ========================================================================= */
+@media (max-width: 768px) {
+  /* 列数已在 ≤900px 那档定死为一列，这里只管间距和内边距 */
+  .cards { gap: 14px; }
+  .card-body { padding: 18px 18px 20px; }
+  .card-body > p:not(.card-kicker) { font-size: 14.5px; }
+  .works-lede { margin-top: 14px; }
+  .works-cta { margin-top: 24px; }
+}
+
+/* =========================================================================
+   动效偏好
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html.js .card-media img { opacity: 1; transition: none; }
+  .card,
+  .card::after,
+  .card-media img,
+  .card-more-arrow { transition: none; }
+  .card:hover { translate: none; }
+  .card:hover .card-media img { transform: none; }
+  .card:hover .card-more-arrow { transform: none; }
+  .card:hover::after { opacity: 0; }
+}

@@ -1,0 +1,787 @@
+/* =========================================================================
+   戎糖小记 · contact.css（联系我们 页面独有样式）
+   只放 contact.html 才用到的规则：
+     联系两栏（二维码卡 / 建议箱）/ 二维码灯箱 / 浅粉留言墙（弹幕 + 表单 +
+     我发的留言管理）/ 响应式 / 动效降级
+   全站公共部分（设计令牌 / reset / 导航 / 页脚 / 页首大图 / 滚动进场 / 按钮）
+   一律在 css/common.css，这里不重复。
+   ========================================================================= */
+
+/* 页面私有令牌：公共的 --coral-deep 做小字只有 4:1，这里补一个更深的暖红，
+   专门给「徽章 / 放大按钮的文字」用（白底 4.8:1，粉底 4.8:1） */
+:root { --coral-ink: #c43d2b; }
+
+/* =========================================================================
+   页首大图（与「关于我们」同款：卡片式大图 + 吸滞文字 + 随滚动收缩）
+   机制（滚动容器 / 吸滞层 / 卡片收缩 / 反向视差 / 遮罩 / 取景框）全在 common.css 的
+   「卡片式首图」段，用 .card-hero_* ；这里只留联系页私有的三样：
+   ① 容器长度 150svh  ② 卡片放在吸滞层内部（钉在视口原地收缩，不随页面往上跑）
+   ③ 文字层（居中偏上 + 随滚动淡出）
+   ========================================================================= */
+
+/* 私有①：容器长度。卡片钉在视口里原地收缩，留白只在四周均匀出现、不会攒成空窗，
+   所以容器可以比关于页短不少：150svh（滚动行程 50svh）。再短收缩显得急，再长空滚。 */
+.contact-hero_scroll { --card-hero-len: 150; }
+
+/* 私有②：卡片定位 —— 放在吸滞层内部，跟着吸滞层钉住，只收缩、不随页面位移 */
+.contact-hero_bg { position: absolute; inset: 0; }
+
+/* 私有③：文字层 —— 水平居中、垂直居中偏上，随滚动淡出 */
+.contact-hero_text { width: 100%; }
+.contact-hero_text > .shell { width: 100%; text-align: center; }
+/* 公共 .hero-copy 有 max-width: 38em，居中时要把盒子本身也居中 */
+.contact-hero_text .hero-copy { margin-inline: auto; }
+@media (max-width: 767px) {
+  /* 移动端没有滚动容器，只做「偏上」的静态位移 */
+  .contact-hero_text { transform: translateY(-3vh); }
+}
+@media (min-width: 768px) {
+  .contact-hero_text {
+    /* -7vh = 从垂直居中往上抬一点；再随滚动多走 10vh，像被卡片带上去 */
+    transform: translate3d(0, calc(-7vh - var(--progress, 0) * 10vh), 0);
+    /* progress 0 -> .4 淡到全透明（赶在卡片下缘扫过文字之前） */
+    opacity: clamp(0, calc(1 - var(--progress, 0) * 2.5), 1);
+    will-change: opacity, transform;
+  }
+}
+/* 公共 .hero-eyebrow / .hero-title / .hero-copy 各自硬编码了白色，
+   这里改继承吸滞层的颜色，避免两处各写一份白、以后改色又要改两遍。 */
+.contact-hero_text .hero-eyebrow,
+.contact-hero_text .hero-title,
+.contact-hero_text .hero-copy { color: inherit; }
+
+/* =========================================================================
+   首图文字：整体放大一档
+   公共 .hero-* 是给内页小标题用的（.hero-title--page 最大 54px、正文 17px），
+   搬到联系页整屏照片上就显得小、四周空。这里只放大字号、行距和三行之间的呼吸，
+   颜色 / 对齐 / 位置一律不动，其他页面不受影响。
+   ========================================================================= */
+@media (max-width: 767px) {
+  .contact-hero_text .hero-eyebrow {
+    font-size: 12.5px;
+    letter-spacing: .3em;
+  }
+  .contact-hero_text .hero-title { font-size: clamp(34px, 9.2vw, 46px); }
+  .contact-hero_text .hero-copy { font-size: 15px; line-height: 2; }
+}
+@media (min-width: 768px) {
+  .contact-hero_text .hero-eyebrow {
+    font-size: clamp(12.5px, 1vw, 16px);
+    letter-spacing: .3em;
+  }
+  .contact-hero_text .hero-title { font-size: clamp(46px, 5.6vw, 82px); }
+  .contact-hero_text .hero-copy {
+    font-size: clamp(16px, 1.2vw, 20.5px);
+    line-height: 2.1;
+    /* 公共的 38em 是按小字号算的，放大后正文会缩成窄条，这里放宽 */
+    max-width: 26em;
+  }
+  /* 三行之间的呼吸也放大，别挤在一小块里 */
+  .contact-hero_text .hero-eyebrow { margin-bottom: clamp(14px, 2vh, 22px); }
+  .contact-hero_text .hero-title { margin-top: 0; margin-bottom: clamp(16px, 2.4vh, 26px); }
+  .contact-hero_text .hero-copy { margin-top: 0; }
+}
+
+/* =========================================================================
+   一、找到我们：左二维码 / 右建议箱
+   ========================================================================= */
+/* 「想怎么找到我们都行」单行也留够呼吸：行距比公共 .h2 再松一档 */
+#ways .h2 { line-height: 1.65; }
+.ways-lede { margin-top: clamp(14px, 1.8vw, 22px); }
+
+/* 公共的 .section-head--tight 把 eyebrow 下边距清零了，标题和小字标签挤在一起；
+   这里给两个区块都补回呼吸，下面的 lede 也就跟着拉开了 */
+#ways .section-head--tight .eyebrow,
+#wall .section-head--tight .eyebrow { margin-bottom: clamp(12px, 1.4vw, 20px); }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.12fr .88fr;
+  gap: clamp(24px, 3.2vw, 52px);
+  align-items: stretch;   /* 三张卡拉通等高：公众号 / 小程序 / 建议箱 */
+}
+
+/* --- 左：两张二维码卡 --- */
+.qr-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 22px);
+  height: 100%;
+}
+.qr-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: clamp(20px, 2.2vw, 30px) clamp(14px, 1.8vw, 22px);
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  transition: transform .45s var(--ease), box-shadow .45s var(--ease), border-color .45s var(--ease);
+}
+.qr-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--pink);
+  box-shadow: var(--shadow);
+}
+/* 卡片顶部的小标签：三张卡（公众号 / 小程序 / 建议箱）统一成通栏长条。
+   卡片是 flex column + align-items:center，所以这里必须用 width:100% + text-align:center，
+   单靠 flex-basis 在桌面端撑不满。 */
+.qr-card_badge,
+.suggest_badge {
+  display: block;
+  width: 100%;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--pink-mist);
+  color: var(--coral-ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-align: center;
+}
+.qr-card_img {
+  width: clamp(104px, 12vw, 150px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-sm);
+  background: var(--pink-mist);
+  margin-top: 4px;
+}
+.qr-card_name {
+  font-size: clamp(16px, 1.4vw, 19px);
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.qr-card_desc {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-2);
+}
+.qr-card_desc:last-of-type { margin-bottom: 4px; }
+
+/* 「放大二维码」按钮：收窄一点，别在卡片里占位置 */
+.qr-open {
+  margin-top: auto;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--pink);
+  background: var(--pink-mist);
+  color: var(--coral-ink);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color .3s var(--ease), color .3s var(--ease), transform .3s var(--ease);
+}
+.qr-open:hover {
+  background: var(--coral-ink);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* --- 右：建议箱（原信息卡位置） --- */
+.suggest {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 徽章 / 标题 / 说明整段居中 */
+  text-align: center;
+  padding: clamp(22px, 2.4vw, 30px) clamp(20px, 2.2vw, 30px);
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+/* 建议箱徽章 .suggest_badge 已在上面和 .qr-card_badge 合并成同一条规则（通栏长条） */
+.suggest_title {
+  font-size: clamp(17px, 1.5vw, 21px);
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--ink);
+  margin: 10px 0 6px;
+}.suggest_desc {
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--ink-2);
+  margin-bottom: clamp(12px, 1.4vw, 16px);
+}
+
+/* --- 建议表单 --- */
+.suggest-form { width: 100%; }   /* 卡片改成居中排列后，表单自己占满整行 */
+.suggest-form_text,
+.suggest-form_contact {
+  width: 100%;
+  font: inherit;
+  font-size: 14.5px;
+  color: var(--ink);
+  background: var(--pink-mist-2);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  transition: border-color .3s var(--ease), background-color .3s var(--ease);
+}
+.suggest-form_text {
+  min-height: 92px;
+  resize: vertical;
+  line-height: 1.8;
+}
+.suggest-form_text::placeholder,
+.suggest-form_contact::placeholder { color: var(--ink-4); }
+.suggest-form_text:focus,
+.suggest-form_contact:focus {
+  outline: none;
+  background: var(--white);
+  border-color: var(--pink);
+}
+.suggest-form_meta {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+.suggest-form_count {
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.suggest-form_contact { margin-top: 10px; }
+.suggest-form_actions { display: flex; justify-content: flex-end; }
+.suggest-form_send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: clamp(14px, 1.6vw, 18px);
+  padding: 12px 30px;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--coral) 100%);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease), opacity .3s var(--ease);
+}
+.suggest-form_send:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.suggest-form_send:disabled { opacity: .6; cursor: default; transform: none; }
+.suggest-form_note {
+  min-height: 20px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--coral-ink);
+}
+.suggest-form_note.is-error { color: #b3261e; }
+.suggest_foot {
+  width: 100%;
+  margin-top: auto;   /* 拉通等高时，脚注始终贴在卡片底部 */
+  padding-top: clamp(12px, 1.4vw, 16px);
+  border-top: 1px solid var(--line-soft);
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--ink-2);
+}
+
+/* =========================================================================
+   二维码灯箱：点「放大二维码」从卡片正中打开
+   ========================================================================= */
+.qr-lightbox { position: fixed; inset: 0; z-index: 1200; display: grid; place-items: center; padding: 20px; }
+.qr-lightbox[hidden] { display: none; }
+.qr-lightbox_bg { position: absolute; inset: 0; background: rgba(30, 12, 22, .62); }
+
+.qr-lightbox_box {
+  position: relative;
+  width: min(360px, 100%);
+  padding: 26px 24px 22px;
+  background: var(--white);
+  border: 1px solid var(--pink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  animation: qr-box-in .35s var(--ease) both;
+}
+@keyframes qr-box-in {
+  from { transform: translateY(14px) scale(.96); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+.qr-lightbox_close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--pink-mist);
+  color: var(--coral-deep);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color .25s var(--ease), color .25s var(--ease);
+}
+.qr-lightbox_close:hover { background: var(--pink); color: #fff; }
+.qr-lightbox_img {
+  width: min(240px, 62vw);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  background: var(--pink-mist);
+  margin: 0 auto 16px;
+}
+.qr-lightbox_title { font-size: 19px; font-weight: 700; letter-spacing: .05em; color: var(--ink); }
+.qr-lightbox_sub { font-size: 15px; color: var(--ink-2); margin-top: 4px; }
+.qr-lightbox_desc { font-size: 13px; line-height: 1.8; color: var(--ink-2); margin-top: 8px; }
+
+/* =========================================================================
+   二、留言墙（浅粉）：和其他区块同一个粉色底
+   弹幕不再逐帧写 transform（主线程零开销、手机上也不会飘出屏外），
+   改成 CSS 动画 + 两个 CSS 变量（距离 / 速度），由 JS 一次性算好。
+   ========================================================================= */
+.section--wall {
+  --wall-ink: var(--ink);
+  --wall-dim: var(--ink-2);
+  --wall-faint: var(--line-soft);
+  position: relative;
+  overflow: hidden;
+  /* 底色由 common.css 的 section 交替规则接管，这里不再手写 */
+  color: var(--wall-ink);
+}
+/* 顶部一层很淡的粉色光，和上一段的浅粉底过渡更自然 */
+.section--wall::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 180px;
+  background: radial-gradient(80% 100% at 50% 0%, rgba(255, 188, 197, .14), rgba(255, 188, 197, 0) 70%);
+  pointer-events: none;
+}
+
+.wall-inner { position: relative; }
+/* 小字标签直接用公共 .eyebrow 的玫瑰色，和别的区块一模一样 */
+.wall-title {
+  font-size: clamp(26px, 3.2vw, 46px);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: .04em;
+  color: var(--ink);
+}
+.wall-lede {
+  color: var(--wall-dim);
+  margin-top: clamp(14px, 1.8vw, 22px);
+}
+
+/* --- 存储方式切换：☁ 云端（公开） / 💾 本地（只存本机） --- */
+.wall-switch {
+  display: inline-flex;
+  gap: 4px;
+  margin-top: 14px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-sm);
+}
+.wall-switch[hidden] { display: none; }
+.wall-switch_opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: background-color .3s var(--ease), color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.wall-switch_opt:hover { background: var(--pink-mist); color: var(--coral-ink); }
+.wall-switch_opt[aria-checked="true"] {
+  color: #fff;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--coral) 100%);
+  box-shadow: 0 4px 14px rgba(255, 140, 160, .3);
+}
+.wall-switch_opt:focus-visible { outline: 2px solid var(--coral-deep); outline-offset: 2px; }
+
+/* --- 当前模式说明：跟着上面的选项变 --- */
+.wall-mode {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-soft);
+  background: var(--white);
+  color: var(--ink-2);
+  font-size: 12.5px;
+  letter-spacing: .06em;
+}
+.wall-mode.is-local { border-style: dashed; }
+
+/* --- 弹幕屏：粉底上的一块白卡片 --- */
+.danmaku {
+  position: relative;
+  margin-top: clamp(24px, 3vw, 40px);
+  height: clamp(230px, 24vw, 300px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line-soft);
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(255, 188, 197, .12), rgba(255, 188, 197, 0) 62%),
+    var(--white);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.danmaku-stage { position: absolute; inset: 0; }
+
+.danmaku-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--ink-3);
+  font-size: 15px;
+  letter-spacing: .1em;
+}
+.danmaku-empty[hidden] { display: none; }
+
+/* 单条弹幕：位置 absolute + left:100%，飘动完全交给 CSS 动画 */
+.danmaku-item {
+  position: absolute;
+  left: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 88%;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--pink-mist);
+  border: 1px solid var(--line-soft);
+  box-shadow: 0 1px 3px rgba(255, 137, 163, .14);
+  color: var(--c, #d63f2e);
+  font-size: clamp(14px, 1.1vw, 16px);
+  font-weight: 600;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  animation: dm-drift var(--dm-dur, 13s) linear var(--dm-delay, 0s) infinite;
+}
+@keyframes dm-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(var(--dm-travel, -1200px), 0, 0); }
+}
+.danmaku-item .dm-text { overflow: hidden; text-overflow: ellipsis; }
+.danmaku-item .dm-time { color: var(--ink-3); font-size: 11.5px; font-weight: 400; letter-spacing: .02em; }
+
+/* 删除按钮只做「锦上添花」，不放 tab 位、不进读屏（可用的是下方的「我发的」列表） */
+.danmaku-item .dm-del {
+  display: none;
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  color: var(--ink-3);
+  font-size: 12px;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.danmaku-item.is-mine .dm-del { display: inline-flex; }
+.danmaku-item.is-mine .dm-del:hover { background: var(--coral-deep); color: #fff; border-color: var(--coral-deep); }
+
+.danmaku-item.is-new {
+  animation: dm-drift var(--dm-dur, 13s) linear var(--dm-delay, 0s) infinite,
+            dm-pop .55s var(--ease);
+}
+@keyframes dm-pop {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 188, 197, .55); }
+  100% { box-shadow: 0 0 0 14px rgba(255, 188, 197, 0); }
+}
+/* 只停鼠标正指着的那一条：飘到光标上就定住，移开继续飘，别的照常。
+   必须写在 .is-new 之后——那段 animation 简写会把 play-state 重置回 running。 */
+.danmaku-item:hover { animation-play-state: paused; }
+
+/* --- 发言区 --- */
+.danmaku-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: clamp(16px, 2vw, 24px);
+}
+/* 输入框 + 发送按钮同一行；色板和颜文字另起一行（见 .danmaku-tools） */
+.danmaku-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+.danmaku-input {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  max-width: 360px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--line-soft);
+  background: var(--white);
+  color: var(--ink);
+  letter-spacing: .04em;
+  transition: border-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.danmaku-input::placeholder { color: var(--ink-4); }
+.danmaku-input:focus {
+  outline: none;
+  border-color: var(--pink);
+  box-shadow: 0 0 0 4px rgba(255, 188, 197, .35);
+}
+.danmaku-input[aria-invalid="true"] { border-color: var(--coral-deep); }
+
+.danmaku-send {
+  flex: none;
+  align-self: stretch;  /* 和输入框等高，并排时不出现一高一矮 */
+  padding: 10px 26px;
+  min-width: 84px;
+  border-radius: 999px;
+  border: 0;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--coral) 100%);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.danmaku-send:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(255, 140, 160, .35);
+}
+
+.danmaku-tools {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2vw, 26px);
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 2px;
+}
+.danmaku-colors { display: inline-flex; align-items: center; gap: 10px; }
+.danmaku-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 0 2px var(--white), 0 0 0 3px rgba(255, 137, 163, .30);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.danmaku-swatch:hover { transform: scale(1.12); }
+.danmaku-swatch[aria-checked="true"] {
+  box-shadow: 0 0 0 2px var(--white), 0 0 0 3px var(--c);
+  transform: scale(1.14);
+}
+
+/* 颜色盘：点一下弹出系统取色器，可选任意颜色（太浅的会自动加深） */
+.danmaku-picker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 2px;
+  padding: 3px 10px 3px 4px;
+  border-radius: 999px;
+  border: 1px dashed var(--line-soft);
+  background: var(--white);
+  transition: border-color .25s var(--ease), background-color .25s var(--ease);
+}
+.danmaku-picker:hover { border-color: var(--pink); }
+.danmaku-picker.is-active {
+  border-style: solid;
+  border-color: var(--pink);
+  background: var(--pink-mist);
+}
+.danmaku-picker input[type="color"] {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--line-soft);
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* Chrome / Edge：把默认的方色块换成圆形 */
+.danmaku-picker input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.danmaku-picker input[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: 50%;
+}
+.danmaku-picker.is-active input[type="color"] {
+  box-shadow: 0 0 0 2px var(--white), 0 0 0 3px var(--coral);
+}
+.danmaku-picker_txt {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--ink-2);
+}
+.danmaku-picker.is-active .danmaku-picker_txt { color: var(--coral-ink); }
+
+.wall-note {
+  min-height: 24px;
+  margin-top: 14px;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: .06em;
+  color: var(--coral-deep);
+}
+.wall-note.is-error { color: #b3261e; }
+.wall-noscript {
+  max-width: 460px;
+  margin: 16px auto 0;
+  padding: 10px 16px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+/* --- 我发的（键盘/读屏也能管理的留言列表） --- */
+.wall-mine {
+  max-width: 720px;
+  margin: clamp(18px, 2.4vw, 26px) auto 0;
+  padding: clamp(16px, 2vw, 22px) clamp(16px, 2vw, 24px);
+  border-radius: var(--radius);
+  border: 1px solid var(--line-soft);
+  background: var(--white);
+}
+.wall-mine[hidden] { display: none; }
+.wall-mine_head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.wall-mine_title { font-size: 14px; font-weight: 700; letter-spacing: .12em; color: var(--coral-deep); }
+.wall-mine_clear {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-soft);
+  background: none;
+  color: var(--ink-2);
+  font-size: 13px;
+  cursor: pointer;
+  transition: color .25s var(--ease), border-color .25s var(--ease);
+}
+.wall-mine_clear:hover { color: var(--coral-deep); border-color: var(--pink); }
+.wall-mine_list { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+.wall-mine_list li { display: flex; align-items: center; gap: 12px; }
+.wall-mine_list .wmi-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+.wall-mine_list .wmi-time { flex: none; font-size: 12px; color: var(--ink-3); }
+.wall-mine_list .wmi-del {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--line-soft);
+  background: none;
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .25s var(--ease), border-color .25s var(--ease);
+}
+.wall-mine_list .wmi-del:hover { color: var(--coral-deep); border-color: var(--pink); }
+
+/* =========================================================================
+   响应式
+   ========================================================================= */
+@media (max-width: 980px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 767px) {
+  .qr-cards { grid-template-columns: 1fr; }
+  .qr-card { flex-direction: row; flex-wrap: wrap; justify-content: center; text-align: center; }
+  .qr-card_img { width: 92px; margin: 0; }
+  .qr-card_body { flex: 1 1 150px; }
+
+  /* 「放大二维码」在小屏显得笨重：字号、内边距再收一档 */
+  .qr-open { padding: 6px 14px; font-size: 12px; }
+
+  /* 发言一行：输入框吃掉剩余空间，按钮只占「发送」两个字 */
+  .danmaku-row { gap: 8px; }
+  .danmaku-input { padding: 12px 18px; }
+  .danmaku-send { padding: 10px 18px; min-width: 72px; font-size: 14.5px; }
+
+  /* 弹幕在小屏照样飘：屏子小，高度收一点、字号小一点，四条泳道够用 */
+  .danmaku { height: clamp(200px, 46vw, 260px); }
+  .danmaku-item { font-size: 14px; padding: 6px 14px; }
+}
+
+@media (max-width: 560px) {
+  .suggest { padding: 20px 18px; }
+  /* 再窄就把「放大二维码」缩成「放大」，按钮不再抢位置 */
+  .qr-open { padding: 5px 12px; font-size: 11.5px; }
+  .qr-open_word { display: none; }
+}
+
+/* 横屏矮窗：留言墙压扁一点，别把表单挤出屏外 */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  .danmaku { height: 180px; }
+}
+
+/* =========================================================================
+   动效偏好
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  /* 弹幕老老实实静态铺排 */
+  .danmaku { height: auto; min-height: 150px; }
+  .danmaku-item { position: static; display: inline-flex; max-width: 100%; animation: none; }
+  .danmaku-stage {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: center;
+    justify-content: center;
+    padding: 18px;
+  }
+  .qr-card,
+  .qr-open,
+  .wall-switch_opt,
+  .danmaku-send,
+  .danmaku-swatch,
+  .danmaku-picker,
+  .danmaku-input,
+  .wall-mine_clear,
+  .wall-mine_list .wmi-del,
+  .qr-lightbox_close,
+  .qr-lightbox_box { transition: none; }
+  .qr-card:hover { transform: none; }
+  .qr-open:hover,
+  .danmaku-send:hover { transform: none; }
+}

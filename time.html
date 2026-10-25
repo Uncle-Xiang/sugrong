@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffbcc5">
+<title>一万天倒计时 · 戎糖小记</title>
+<meta name="description" content="距离 2026 年 12 月 20 日，为王戎准备的一万天倒计时：归零那天会有烟花和祝福。">
+<link rel="icon" href="https://img.sugrong.com/assets/左logo.png">
+<link rel="preconnect" href="https://img.sugrong.com">
+<link rel="dns-prefetch" href="https://img.sugrong.com">
+<link rel="stylesheet" href="css/common.css?v=10">
+<link rel="stylesheet" href="css/time.css?v=5">
+<script>
+  document.documentElement.classList.add('js');
+  /* 刷新即回到最顶部：禁用浏览器默认的滚动位置恢复 */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+</script>
+</head>
+<body class="page-countdown">
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="shell shell-wide header-inner">
+    <a class="brand" href="index.html" aria-label="戎糖小记 首页">
+        <span class="brand-text">
+          <span class="brand-name">戎糖小记</span>
+          <span class="brand-en">Rongtang Log</span>
+        </span>
+    </a>
+    <nav class="nav" id="primaryNav" aria-label="主导航">
+      <ul class="nav-list">
+        <li><a class="nav-link" href="index.html">首页</a></li>
+        <li><a class="nav-link" href="works.html">我的作品</a></li>
+        <li><a class="nav-link" href="about.html">关于我们</a></li>
+        <li><a class="nav-link" href="contact.html">联系我们</a></li>
+        <li><a class="nav-link" href="tools.html">工具箱</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="打开菜单">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <!-- 背景装饰：柔和光晕 + 漂浮的小爱心 -->
+  <div class="cd-bg" aria-hidden="true">
+    <span class="cd-halo cd-halo--a"></span>
+    <span class="cd-halo cd-halo--b"></span>
+    <span class="cd-ornament" style="--x: 8%;  --d: 0s;   --s: .9;">
+      <svg viewBox="0 0 24 22"><path d="M12 21S2 14.5 2 8.4A5.4 5.4 0 0 1 12 5.6 5.4 5.4 0 0 1 22 8.4C22 14.5 12 21 12 21z"/></svg>
+    </span>
+    <span class="cd-ornament" style="--x: 24%; --d: 1.6s; --s: .6;">
+      <svg viewBox="0 0 24 22"><path d="M12 21S2 14.5 2 8.4A5.4 5.4 0 0 1 12 5.6 5.4 5.4 0 0 1 22 8.4C22 14.5 12 21 12 21z"/></svg>
+    </span>
+    <span class="cd-ornament" style="--x: 74%; --d: .8s;  --s: .7;">
+      <svg viewBox="0 0 24 22"><path d="M12 21S2 14.5 2 8.4A5.4 5.4 0 0 1 12 5.6 5.4 5.4 0 0 1 22 8.4C22 14.5 12 21 12 21z"/></svg>
+    </span>
+    <span class="cd-ornament" style="--x: 91%; --d: 2.4s; --s: 1;">
+      <svg viewBox="0 0 24 22"><path d="M12 21S2 14.5 2 8.4A5.4 5.4 0 0 1 12 5.6 5.4 5.4 0 0 1 22 8.4C22 14.5 12 21 12 21z"/></svg>
+    </span>
+  </div>
+
+  <a class="back-btn" href="index.html" aria-label="返回首页">
+    <span class="back-arrow" aria-hidden="true"></span>
+    <span class="back-text">返回</span>
+  </a>
+
+  <section class="countdown-section">
+    <!-- 信息层级：小标签 → 主标题 → 目标日期 -->
+    <p class="eyebrow cd-eyebrow" id="cdEyebrow">Time · 倒计时</p>
+    <h1 class="countdown-title" id="cdTitle">倒计时</h1>
+    <p class="countdown-target" id="cdTarget">
+      <time datetime="2026-12-20">2026 年 12 月 20 日</time>
+      <span class="cd-target-sep" aria-hidden="true">·</span>
+      星期日
+      <span class="cd-target-sep" aria-hidden="true">·</span>
+      期待那一天的到来...
+    </p>
+
+    <div class="countdown-container" id="cdContainer" role="timer" aria-live="off" aria-label="距离目标时间还有">
+      <div class="countdown-item">
+        <div class="countdown-number" id="days">00</div>
+        <div class="countdown-label">天</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="hours">00</div>
+        <div class="countdown-label">时</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="minutes">00</div>
+        <div class="countdown-label">分</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="seconds">00</div>
+        <div class="countdown-label">秒</div>
+      </div>
+    </div>
+
+    <!-- 归零揭幕：巨大的「10000 天」 -->
+    <div class="cd-hero" id="cdHero">
+      <div class="cd-hero-number" aria-hidden="true">10000<span class="cd-hero-unit">天</span></div>
+      <p class="cd-hero-date">点击空白位置试试~</p>
+    </div>
+
+    <div class="celebration" id="celebration">
+      <p class="celebration-title">祝王戎一万天快乐</p>
+      <p class="celebration-subtitle">愿你永远被爱意包围，幸福绵长 ✨</p>
+    </div>
+  </section>
+
+  <canvas id="fireworks-canvas" aria-hidden="true"></canvas>
+</main>
+
+<script src="js/app.js?v=82" defer></script>
+<script src="js/time.js?v=1" defer></script>
+<script>window.__CF$cv$params={r:'a4ee87e9dfbcad7d',t:'MTc5MjczNTMyNQ==',u:'01a1675a2e4f706ba80cdb0cffda726b',ut:'UB57CZKUmVU_63j3i4buA__m0_LIhdD6_orY5hubfco-1792735325-1.2.1.1-FOElPpAQrQ1OoNiiIC0Rp.Om6LFxCPHwgh2.6WKp5Twq37uO8UzHyeL6_Ehx2JHhrVEPrRoHWusI.Vit3RtfxY9qY21vdJO8HSxWILL5Axg',i:60};(function(){if(!document.body)return;var s=document.createElement('script');s.src='/cdn-cgi/challenge-platform/scripts/precursor/main.js';document.head.appendChild(s);})();</script></body>
+</html>

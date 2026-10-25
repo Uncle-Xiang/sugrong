@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>戎糖小记 · 站长时间</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffbcc5">
+<link rel="icon" href="https://img.sugrong.com/assets/左logo.png">
+<link rel="preconnect" href="https://img.sugrong.com">
+<link rel="dns-prefetch" href="https://img.sugrong.com">
+<link rel="stylesheet" href="css/common.css?v=10">
+<link rel="stylesheet" href="css/admin.css?v=10">
+<script>
+  document.documentElement.classList.add('js');
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+</script>
+</head>
+<body class="page-admin">
+
+<!-- ==================== 界面一：密码门（登录后整体下屏） ==================== -->
+<section class="screen screen--gate is-on" id="gateScreen">
+  <div class="gate-deco" aria-hidden="true">
+    <i class="gate-deco_blob gate-deco_blob--a"></i>
+    <i class="gate-deco_blob gate-deco_blob--b"></i>
+    <i class="gate-deco_blob gate-deco_blob--c"></i>
+    <i class="gate-deco_ring"></i>
+  </div>
+
+  <div class="gate-card">
+    <p class="gate-card_eyebrow">Rongtang Log · Admin</p>
+    <h1 class="gate-card_title">站长时间</h1>
+    <p class="gate-card_desc">收到的建议和留言都收在这里<br>只有你能看</p>
+    <form class="gate-card_form" id="gateForm" novalidate>
+      <label class="sr-only" for="gateToken">管理密码</label>
+      <input class="gate-card_input" id="gateToken" name="token" type="password"
+             placeholder="管理密码" autocomplete="current-password">
+      <button class="gate-card_btn" type="submit">进入</button>
+    </form>
+    <p class="gate-card_note" id="gateNote" role="status" aria-live="polite"></p>
+    <a class="gate-card_back" href="index.html">
+      <svg viewBox="0 0 24 12" aria-hidden="true" focusable="false"><path d="M24 6H3M8 1L3 6l5 5"/></svg>
+      <span>返回首页</span>
+    </a>
+    <div class="gate-card_diag" id="gateDiagBox" hidden>
+      <pre class="gate-card_diagText" id="gateDiagOut"></pre>
+      <button class="gate-card_diagCopy" type="button" id="gateDiagCopy">复制诊断</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 界面二：仪表盘（另起一屏，自带顶栏） ==================== -->
+<section class="screen screen--board" id="boardScreen">
+  <header class="board-bar">
+    <div class="board-bar_brand">
+      <div class="board-bar_title">站长时间</div>
+      <p class="board-bar_sub">建议与留言，随看随管</p>
+    </div>
+    <div class="board-bar_actions">
+      <a class="board-bar_back" href="index.html">回到小站</a>
+      <button class="board-bar_logout" id="logoutBtn" type="button">退出登录</button>
+    </div>
+  </header>
+
+  <div class="board-body">
+    <div class="board-tabs" role="tablist" aria-label="内容切换">
+      <button class="board-tab is-on" id="tabSuggest" role="tab" type="button"
+              aria-selected="true" aria-controls="panelSuggest">
+        建议箱 <span class="board-tab_count" id="suggestCount">0</span>
+      </button>
+      <button class="board-tab" id="tabDanmaku" role="tab" type="button"
+              aria-selected="false" aria-controls="panelDanmaku" tabindex="-1">
+        留言墙 <span class="board-tab_count" id="danmakuCount">0</span>
+      </button>
+      <button class="board-tab" id="tabWorks" role="tab" type="button"
+              aria-selected="false" aria-controls="panelWorks" tabindex="-1">
+        作品集 <span class="board-tab_count" id="worksCount">0</span>
+      </button>
+    </div>
+
+    <!-- 建议箱 -->
+    <div class="board-panel is-on" id="panelSuggest" role="tabpanel" aria-labelledby="tabSuggest">
+      <div class="board-filters" role="group" aria-label="按状态筛选">
+        <button class="board-filter is-on" type="button" data-filter="all" aria-pressed="true">全部</button>
+        <button class="board-filter" type="button" data-filter="todo" aria-pressed="false">未处理</button>
+        <button class="board-filter" type="button" data-filter="done" aria-pressed="false">已完成</button>
+      </div>
+      <p class="board-state" id="suggestState" role="status" aria-live="polite"></p>
+      <ul class="board-list" id="suggestList"></ul>
+    </div>
+
+    <!-- 留言墙 -->
+    <div class="board-panel" id="panelDanmaku" role="tabpanel" aria-labelledby="tabDanmaku">
+      <p class="board-state" id="danmakuState" role="status" aria-live="polite"></p>
+      <ul class="board-list" id="danmakuList"></ul>
+    </div>
+
+    <!-- 作品集：上面的表单负责「新增 / 编辑」，下面的列表是现有作品 -->
+    <div class="board-panel" id="panelWorks" role="tabpanel" aria-labelledby="tabWorks">
+      <form class="board-form" id="worksForm" novalidate>
+        <p class="board-form_title" id="worksFormTitle">新增作品</p>
+
+        <div class="board-form_grid">
+          <label class="board-form_row">
+            <span class="board-form_label">标题<em>*</em></span>
+            <input class="board-form_input" id="wfTitle" name="title" type="text"
+                   maxlength="40" placeholder="例：日常记录篇" autocomplete="off">
+          </label>
+          <label class="board-form_row">
+            <span class="board-form_label">小标签</span>
+            <input class="board-form_input" id="wfKicker" name="kicker" type="text"
+                   maxlength="40" placeholder="例：Notes · 日常记录" autocomplete="off">
+          </label>
+          <label class="board-form_row board-form_row--wide">
+            <span class="board-form_label">简介</span>
+            <textarea class="board-form_input board-form_textarea" id="wfSummary" name="summary"
+                      rows="2" maxlength="200" placeholder="换行会照搬到卡片上"></textarea>
+          </label>
+          <label class="board-form_row">
+            <span class="board-form_label">封面</span>
+            <input class="board-form_input" id="wfCover" name="cover" type="text"
+                   placeholder="https://img.sugrong.com/assets/gd1.jpg 或 assets/gd1.jpg" autocomplete="off">
+          </label>
+          <!-- 直接传图到 R2：走 Worker 的 PUT /api/upload，传完把地址填回上面的「封面」 -->
+          <div class="board-form_row board-form_row--wide">
+            <span class="board-form_label">封面图上传</span>
+            <label class="board-upload" id="coverDrop">
+              <img class="board-upload_thumb" id="coverThumb" alt="" hidden>
+              <span class="board-upload_text">
+                <strong>点这里选图，或把图片拖进来</strong>
+                <em id="coverNote">jpg / png / webp / gif / avif，单张 ≤ 8 MB。选好后可以改文件名，再点右边的「上传」</em>
+              </span>
+              <input class="sr-only" id="coverFile" type="file"
+                     accept="image/jpeg,image/png,image/webp,image/gif,image/avif">
+            </label>
+            <div class="board-upload_send">
+              <input class="board-form_input board-upload_name" id="coverName" type="text"
+                     maxlength="60" placeholder="文件名（选填，例：日常记录篇）" autocomplete="off">
+              <button class="board-item_btn board-item_btn--primary" id="coverSend" type="button" disabled>
+                <span id="coverSendText">上传</span>
+              </button>
+            </div>
+          </div>
+          <label class="board-form_row">
+            <span class="board-form_label">跳转链接</span>
+            <input class="board-form_input" id="wfLink" name="link" type="text"
+                   placeholder="time.html 或 https 文章地址" autocomplete="off">
+          </label>
+          <label class="board-form_row">
+            <span class="board-form_label">类型</span>
+            <input class="board-form_input" id="wfType" name="type" type="text"
+                   maxlength="12" list="workTypes" placeholder="日常记录" autocomplete="off">
+            <datalist id="workTypes">
+              <option value="互动页面"></option>
+              <option value="日常记录"></option>
+              <option value="节日记录"></option>
+              <option value="生日记录"></option>
+              <option value="旅行见闻"></option>
+              <option value="美食体验"></option>
+              <option value="其他"></option>
+            </datalist>
+          </label>
+          <label class="board-form_row">
+            <span class="board-form_label">时间</span>
+            <input class="board-form_input" id="wfDate" name="date" type="date">
+          </label>
+          <label class="board-form_row">
+            <span class="board-form_label">按钮文案</span>
+            <input class="board-form_input" id="wfLinkText" name="link_text" type="text"
+                   maxlength="20" placeholder="打开页面 / 阅读文章" autocomplete="off">
+          </label>
+          <label class="board-form_row">
+            <span class="board-form_label">状态</span>
+            <select class="board-form_input board-form_select" id="wfStatus" name="status">
+              <option value="on">展示中</option>
+              <option value="soon">筹备中（显示徽章，不给链接）</option>
+              <option value="off">隐藏（前台不出现，后台留档）</option>
+            </select>
+          </label>
+          <label class="board-form_row">
+            <span class="board-form_label">排序</span>
+            <input class="board-form_input" id="wfSort" name="sort" type="number"
+                   step="1" min="-9999" max="9999" value="0" inputmode="numeric">
+          </label>
+          <label class="board-form_row board-form_row--wide board-check">
+            <input class="board-check_box" id="wfFeatured" name="featured" type="checkbox">
+            <span class="board-check_text">
+              <strong>设为首屏「最新发布」</strong>
+              <em>勾上后这条会出现在首页「最新发布」区块；全站只能有一条，勾它会自动取消其他条</em>
+            </span>
+          </label>
+          <label class="board-form_row board-form_row--wide board-check">
+            <input class="board-check_box" id="wfRecent" name="recent" type="checkbox" checked>
+            <span class="board-check_text">
+              <strong>放进首页「最近文章」</strong>
+              <em>勾上才会出现在首页列表里（顺序按上面的「排序」）；不影响「我的作品」页</em>
+            </span>
+          </label>
+        </div>
+
+        <div class="board-form_actions">
+          <button class="board-item_btn board-item_btn--primary" id="worksSave" type="submit">保存</button>
+          <button class="board-item_btn" id="worksCancel" type="button" hidden>取消编辑</button>
+          <button class="board-item_btn" id="worksReset" type="reset">清空</button>
+          <span class="board-form_hint">数字越大越靠前</span>
+        </div>
+        <p class="board-state" id="worksFormNote" role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="board-state" id="worksState" role="status" aria-live="polite"></p>
+      <ul class="board-list" id="worksList"></ul>
+    </div>
+  </div>
+</section>
+
+<script src="js/admin.js?v=10" defer></script>
+<script>window.__CF$cv$params={r:'a4ee87f0584e34d4',t:'MTc5MjczNTMyNg==',u:'01a1675a325473228530e02adef8dc3c',ut:'Z1e74.KQ6wBJnEOixt2PVCtkrLSRcqxhxzNDsm7up8k-1792735326-1.2.1.1-Z3hq.O.zX069qt3sR9Lmlts_oFEUcj1uYBpXN6CqyaR3X7q2b6wf3kzt08OAoLEFL46PW3w9Dz9V_z26Y2WVAc.219kUTOI__pVDlHg2tzo',i:60};(function(){if(!document.body)return;var s=document.createElement('script');s.src='/cdn-cgi/challenge-platform/scripts/precursor/main.js';document.head.appendChild(s);})();</script></body>
+</html>

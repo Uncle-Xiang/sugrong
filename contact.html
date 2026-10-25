@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>戎糖小记 · 联系我们</title>
+<meta name="description" content="联系戎糖小记：关注微信公众号「戎戎的糖咪小站」，打开「戎戎百宝箱」小程序，或在留言墙上写一句想说的话。">
+<meta name="theme-color" content="#ffbcc5">
+<link rel="icon" href="https://img.sugrong.com/assets/左logo.png">
+<link rel="preconnect" href="https://img.sugrong.com">
+<link rel="dns-prefetch" href="https://img.sugrong.com">
+<link rel="stylesheet" href="css/common.css?v=10">
+<link rel="stylesheet" href="css/contact.css?v=9">
+<script>
+  document.documentElement.classList.add('js');
+  /* 刷新即回到最顶部：禁用浏览器默认的滚动位置恢复 */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  /* 兜底：即使页面脚本异常，4.2s 后也强制撤下加载封面 */
+  window.setTimeout(function () {
+    if (document.body) document.body.classList.add('is-ready');
+  }, 4200);
+</script>
+<style>
+  /* 刷新加载特效·关键样式（内联）：外部样式表就绪前先遮住内容，
+     避免刷新瞬间闪出未动画的布局 */
+  html.js body:not(.is-ready) { overflow: hidden; }
+  html.js body:not(.is-ready) .page-wrap { opacity: 0; }
+  html.js .page-cover {
+    position: fixed; inset: 0; z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff8f9;
+    transition: opacity .45s ease, visibility .45s ease;
+  }
+  html.js body.is-ready .page-cover { opacity: 0; visibility: hidden; pointer-events: none; }
+  html:not(.js) .page-cover { display: none; }
+</style>
+</head>
+<body class="page-photo-top page-contact">
+
+<div class="page-cover" aria-hidden="true">
+  <div class="page-cover_box">
+    <span class="page-cover_brand">戎糖小记</span>
+    <span class="page-cover_sub">Rongtang Log</span>
+    <span class="page-cover_bar"><i></i></span>
+  </div>
+</div>
+
+<div class="page-wrap">
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="shell shell-wide header-inner">
+    <a class="brand" href="index.html" aria-label="戎糖小记 首页">
+        <span class="brand-text">
+          <span class="brand-name">戎糖小记</span>
+          <span class="brand-en">Rongtang Log</span>
+        </span>
+    </a>
+    <nav class="nav" id="primaryNav" aria-label="主导航">
+      <ul class="nav-list">
+        <li><a class="nav-link" href="index.html">首页</a></li>
+        <li><a class="nav-link" href="works.html">我的作品</a></li>
+        <li><a class="nav-link" href="about.html">关于我们</a></li>
+        <li><a class="nav-link" href="contact.html">联系我们</a></li>
+        <li><a class="nav-link" href="tools.html">工具箱</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="打开菜单">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ==================== 页首大图（与「关于我们」同款：卡片式大图 + 吸滞文字 + 随滚动收缩）
+       文字居中偏上，并随滚动淡出（progress 0.4 前退干净），滚完直接进 Find us。
+       文字仍用公共的 .hero-eyebrow / .hero-title--page / .hero-copy，字体样式不动 ============ -->
+  <section class="contact-hero">
+    <div class="card-hero_pad">
+      <!-- 滚动容器：由 contact.js 写入 --progress(0 -> 1) -->
+      <div class="card-hero_scroll contact-hero_scroll" data-hero-progress>
+        <!-- 吸滞层：文字 + 媒体卡片都钉在视口里，卡片原地收缩（不随页面往上跑） -->
+        <div class="card-hero_sticky">
+          <div class="contact-hero_text">
+            <div class="shell shell-wide">
+              <p class="eyebrow hero-eyebrow" data-hero-intro="title">Contact · 联系我们</p>
+              <h1 class="hero-title hero-title--page" data-hero-intro="title">联系我们</h1>
+              <p class="hero-copy" data-hero-intro="title">
+                想聊一篇小记，想一起记录点什么，或者只是想打个招呼<br>都欢迎，慢慢说。
+              </p>
+            </div>
+          </div>
+          <!-- 背景媒体卡片：随滚动收缩 -->
+          <div class="card-hero_bg contact-hero_bg">
+            <div class="card-hero_bg-inner" data-hero-bg-inner>
+              <div class="card-hero_media">
+                <img class="card-hero_img" src="https://img.sugrong.com/assets/contact.jpg?v=2" alt="联系我们页头图" width="2048" height="1152" fetchpriority="high" decoding="async">
+              </div>
+              <div class="card-hero_scrim"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 一、找到我们 ==================== -->
+  <section class="section" id="ways">
+    <div class="shell shell-wide">
+      <header class="section-head section-head--tight" data-reveal>
+        <p class="eyebrow">Find us · 找到我们</p>
+        <h2 class="h2">想怎么找到我们都行</h2>
+        <p class="lede lede--center ways-lede" data-reveal data-reveal-delay="1">
+          扫码关注公众号，或者打开小程序逛逛。<br>如果只是想随便说点什么，直接划到下面的留言墙。
+        </p>
+      </header>
+
+      <div class="contact-grid">
+        <!-- 左：两个二维码 -->
+        <div class="qr-cards" data-reveal>
+          <article class="qr-card">
+            <p class="qr-card_badge">WeChat · 公众号</p>
+            <img class="qr-card_img" src="https://img.sugrong.com/assets/QRone.jpg" alt="微信公众号「戎戎的糖咪小站」二维码" width="430" height="430" loading="lazy" decoding="async">
+            <div class="qr-card_body">
+              <h3 class="qr-card_name">戎戎的糖咪小站</h3>
+              <p class="qr-card_desc">长文、图集和节日特辑都发在这里</p>
+            </div>
+            <button class="qr-open" type="button" aria-label="放大二维码"
+                    data-src="https://img.sugrong.com/assets/QRone.jpg"
+                    data-alt="微信公众号「戎戎的糖咪小站」二维码"
+                    data-title="微信公众号"
+                    data-sub="戎戎的糖咪小站"
+                    data-desc="扫码或长按关注，更新不错过">放大<span class="qr-open_word">二维码</span></button>
+          </article>
+
+          <article class="qr-card">
+            <p class="qr-card_badge">Mini · 小程序</p>
+            <img class="qr-card_img" src="https://img.sugrong.com/assets/QRtwo.jpg" alt="微信小程序「戎戎百宝箱」二维码" width="430" height="430" loading="lazy" decoding="async">
+            <div class="qr-card_body">
+              <h3 class="qr-card_name">戎戎百宝箱</h3>
+              <p class="qr-card_desc">倒计时、小工具和一点好玩的东西</p>
+            </div>
+            <button class="qr-open" type="button" aria-label="放大二维码"
+                    data-src="https://img.sugrong.com/assets/QRtwo.jpg"
+                    data-alt="微信小程序「戎戎百宝箱」二维码"
+                    data-title="微信小程序"
+                    data-sub="戎戎百宝箱"
+                    data-desc="扫码或长按打开">放大<span class="qr-open_word">二维码</span></button>
+          </article>
+        </div>
+
+        <!-- 右：建议箱 -->
+        <aside class="suggest" data-reveal data-reveal-delay="1">
+          <p class="suggest_badge">Suggest · 建议箱</p>
+          <h3 class="suggest_title">给小站提建议</h3>
+          <p class="suggest_desc">想看什么内容、哪里用着不顺手、或者单纯想唠两句，都写在这里。建议只有站长看得到，不会飘到留言墙上。</p>
+
+          <form class="suggest-form" id="suggestForm" novalidate>
+            <label class="sr-only" for="suggestText">建议内容</label>
+            <textarea class="suggest-form_text" id="suggestText" name="text" rows="4" maxlength="300"
+                      placeholder="随便写，300 字以内…" aria-describedby="suggestCount"></textarea>
+            <div class="suggest-form_meta">
+              <span class="suggest-form_count" id="suggestCount" aria-live="polite">0 / 300</span>
+            </div>
+            <label class="sr-only" for="suggestContact">联系方式（选填）</label>
+            <input class="suggest-form_contact" id="suggestContact" name="contact" type="text"
+                   maxlength="60" placeholder="联系方式（选填）：微信 / 邮箱，方便回复你" autocomplete="off">
+            <div class="suggest-form_actions">
+              <button class="suggest-form_send" type="submit">提交建议</button>
+            </div>
+          </form>
+          <p class="suggest-form_note" id="suggestNote" role="status" aria-live="polite"></p>
+
+          <p class="suggest_foot">建议仅站长可见，本站不收集任何个人信息。</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 二、留言墙 ==================== -->
+  <section class="section section--wall" id="wall">
+    <div class="shell shell-wide wall-inner">
+      <header class="section-head section-head--tight" data-reveal>
+        <p class="eyebrow wall-eyebrow">Danmaku · 留言墙</p>
+        <h2 class="wall-title">想说的话都会飘过去</h2>
+        <p class="lede lede--center wall-lede" data-reveal data-reveal-delay="1">
+          写一句想说的，它会从右边慢慢飘过屏幕。<br>鼠标移进屏幕，可以让弹幕停下来看清某一条。
+        </p>
+        <!-- 存储方式：留言飘去云端（公开）还是留在本机 -->
+        <div class="wall-switch" id="wallSwitch" role="radiogroup" aria-label="留言保存方式"
+             data-reveal data-reveal-delay="2">
+          <button type="button" class="wall-switch_opt" role="radio" data-mode="cloud"
+                  aria-checked="true" tabindex="0">☁ 云端</button>
+          <button type="button" class="wall-switch_opt" role="radio" data-mode="local"
+                  aria-checked="false" tabindex="-1">💾 本地</button>
+        </div>
+        <p class="wall-mode" id="wallMode" data-reveal data-reveal-delay="2">正在连接留言墙…</p>
+      </header>
+
+      <!-- 弹幕屏 -->
+      <div class="danmaku" id="danmaku" role="log" aria-live="off" aria-label="留言墙">
+        <div class="danmaku-stage" id="danmakuStage"></div>
+        <p class="danmaku-empty" id="danmakuEmpty">还没有人说话，第一条留给你 ✨</p>
+      </div>
+
+      <!-- 发言表单 -->
+      <form class="danmaku-form" id="danmakuForm" novalidate data-reveal data-reveal-delay="2">
+        <label class="sr-only" for="danmakuText">想说的话</label>
+        <!-- 输入框和发送按钮同一行：写完直接按旁边的按钮 -->
+        <div class="danmaku-row">
+          <input class="danmaku-input" id="danmakuText" name="text" type="text"
+                 maxlength="40" placeholder="写点什么，40 字以内…" autocomplete="off">
+          <button class="danmaku-send" type="submit">发送</button>
+        </div>
+
+        <div class="danmaku-tools">
+          <div class="danmaku-colors" role="radiogroup" aria-label="选择文字颜色">
+            <button type="button" class="danmaku-swatch" role="radio" data-color="#1f1f1f" style="--c:#1f1f1f" aria-checked="true" tabindex="0" aria-label="墨黑"></button>
+            <button type="button" class="danmaku-swatch" role="radio" data-color="#d63f2e" style="--c:#d63f2e" aria-checked="false" tabindex="-1" aria-label="珊瑚"></button>
+            <button type="button" class="danmaku-swatch" role="radio" data-color="#c2185b" style="--c:#c2185b" aria-checked="false" tabindex="-1" aria-label="粉桃"></button>
+            <button type="button" class="danmaku-swatch" role="radio" data-color="#7b5cc4" style="--c:#7b5cc4" aria-checked="false" tabindex="-1" aria-label="紫罗兰"></button>
+            <button type="button" class="danmaku-swatch" role="radio" data-color="#238268" style="--c:#238268" aria-checked="false" tabindex="-1" aria-label="松绿"></button>
+            <button type="button" class="danmaku-swatch" role="radio" data-color="#3a6ea5" style="--c:#3a6ea5" aria-checked="false" tabindex="-1" aria-label="雾蓝"></button>
+
+            <!-- 颜色盘：任意取色（太浅的颜色会自动加深，保证看得清） -->
+            <span class="danmaku-picker" id="danmakuPicker">
+              <input type="color" id="danmakuColor" value="#1f1f1f" aria-label="自定义颜色">
+              <span class="danmaku-picker_txt">自选</span>
+            </span>
+          </div>
+        </div>
+      </form>
+      <p class="wall-note" id="danmakuNote" role="status" aria-live="polite"></p>
+
+      <noscript>
+        <p class="wall-noscript">留言墙需要开启 JavaScript 才能发言；上面的二维码和站点信息不受影响。</p>
+      </noscript>
+
+      <!-- 我发的：键盘 / 读屏也能管理的留言列表 -->
+      <div class="wall-mine" id="wallMine" hidden>
+        <div class="wall-mine_head">
+          <h3 class="wall-mine_title">我发的 <span id="wallMineCount">0</span> 条</h3>
+          <button class="wall-mine_clear" id="wallMineClear" type="button">全部清空</button>
+        </div>
+        <ul class="wall-mine_list" id="wallMineList"></ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell shell-wide footer-inner">
+    <a class="brand brand--footer" href="index.html" aria-label="戎糖小记 首页">
+      <img class="brand-logo" src="https://img.sugrong.com/assets/左logo.png" alt="戎糖小记 logo" width="3312" height="1067">
+    </a>
+    <nav class="footer-nav" aria-label="页脚导航">
+      <a href="index.html">首页</a>
+      <a href="works.html">我的作品</a>
+      <a href="about.html">关于我们</a>
+      <a href="contact.html">联系我们</a>
+      <a href="tools.html">工具箱</a>
+    </nav>
+    <p class="footer-note">© <span data-year>2025</span> 戎糖小记 · 戎戎的糖咪小站 · 用心生活，用心记录</p>
+  </div>
+</footer>
+
+</div><!-- /.page-wrap -->
+
+<!-- ==================== 二维码灯箱 ==================== -->
+<div class="qr-lightbox" id="qrLightbox" hidden>
+  <div class="qr-lightbox_bg" data-close></div>
+  <div class="qr-lightbox_box" role="dialog" aria-modal="true" aria-labelledby="qrLbTitle">
+    <button class="qr-lightbox_close" type="button" data-close aria-label="关闭二维码">×</button>
+    <img class="qr-lightbox_img" id="qrLbImg" src="" alt="二维码">
+    <p class="qr-lightbox_title" id="qrLbTitle"></p>
+    <p class="qr-lightbox_sub" id="qrLbSub"></p>
+    <p class="qr-lightbox_desc" id="qrLbDesc"></p>
+  </div>
+</div>
+
+<script src="js/app.js?v=82" defer></script>
+<script src="js/contact.js?v=17" defer></script>
+<script>window.__CF$cv$params={r:'a4ee87e2dadf79fd',t:'MTc5MjczNTMyNA==',u:'01a1675a2a01776ca27b5b794c9ebf9c',ut:'tTU64zuu8DiK_oduorLPR1dyQVbvad9RIQst1.Y4Hmg-1792735324-1.2.1.1-UW.A4y3FwH0g1EZgePIRZlRI5dVZSISlhlHkL_NS7IZRFw90pkZ6DIeuMARYcYaa1dRaDol2sBDttgVc2UcG3EZixdlUB5z4RbWI3sCnfkQ',i:60};(function(){if(!document.body)return;var s=document.createElement('script');s.src='/cdn-cgi/challenge-platform/scripts/precursor/main.js';document.head.appendChild(s);})();</script></body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>戎糖小记</title>
+<meta name="description" content="戎糖小记（戎戎的糖咪小站）始于 2024 年 4 月，专注记录日常点滴、定格美好时光、分享自然风光的个人治愈网页平台。">
+<meta name="theme-color" content="#ffbcc5">
+<link rel="icon" href="https://img.sugrong.com/assets/左logo.png">
+<link rel="preload" as="image" href="https://img.sugrong.com/assets/firstpic.jpg">
+<link rel="preconnect" href="https://img.sugrong.com">
+<link rel="dns-prefetch" href="https://img.sugrong.com">
+<link rel="stylesheet" href="css/common.css?v=10">
+<link rel="stylesheet" href="css/index.css?v=26">
+<script>
+  document.documentElement.classList.add('js');
+  /* 刷新即回到最顶部：禁用浏览器默认的滚动位置恢复 */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  /* 兜底：即使页面脚本异常，4.2s 后也强制撤下加载封面 */
+  window.setTimeout(function () {
+    if (document.body) document.body.classList.add('is-ready');
+  }, 4200);
+</script>
+<style>
+  /* 刷新加载特效·关键样式（内联）：外部样式表就绪前先遮住内容，
+     避免刷新瞬间闪出未动画的布局 */
+  html.js body:not(.is-ready) { overflow: hidden; }
+  html.js body:not(.is-ready) .page-wrap { opacity: 0; }
+  html.js .page-cover {
+    position: fixed; inset: 0; z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff8f9;
+    transition: opacity .45s ease, visibility .45s ease;
+  }
+  html.js body.is-ready .page-cover { opacity: 0; visibility: hidden; pointer-events: none; }
+  html:not(.js) .page-cover { display: none; }
+</style>
+</head>
+<body class="page-home">
+
+<div class="page-cover" aria-hidden="true">
+  <div class="page-cover_box">
+    <span class="page-cover_brand">戎糖小记</span>
+    <span class="page-cover_sub">Rongtang Log</span>
+    <span class="page-cover_bar"><i></i></span>
+  </div>
+</div>
+
+<div class="page-wrap">
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="shell shell-wide header-inner">
+    <a class="brand" href="index.html" aria-label="戎糖小记 首页">
+        <span class="brand-text">
+          <span class="brand-name">戎糖小记</span>
+          <span class="brand-en">Rongtang Log</span>
+        </span>
+    </a>
+    <nav class="nav" id="primaryNav" aria-label="主导航">
+      <ul class="nav-list">
+        <li><a class="nav-link" href="index.html">首页</a></li>
+        <li><a class="nav-link" href="works.html">我的作品</a></li>
+        <li><a class="nav-link" href="about.html">关于我们</a></li>
+        <li><a class="nav-link" href="contact.html">联系我们</a></li>
+        <li><a class="nav-link" href="tools.html">工具箱</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="打开菜单">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ==================== 首图 ==================== -->
+  <section class="hero-section">
+    <div class="hero">
+      <div class="hero-media" data-hero-bg-inner>
+        <!-- hero-zoom 负责刷新时的「对焦 + 缓慢推近」；img 自己的 transform 留给 hover 放大 -->
+        <div class="hero-zoom">
+          <img class="hero-img" data-hero-img-in src="https://img.sugrong.com/assets/firstpic.jpg" alt="戎糖小记首页首图：阳光下的治愈风景" width="1696" height="962" fetchpriority="high">
+        </div>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-scrim"></div>
+      <div class="hero-light" aria-hidden="true"></div>
+      <div class="hero-vignette" aria-hidden="true"></div>
+
+      <div class="hero-inner" style="--hero-fade:1">
+        <div class="shell shell-wide">
+          <p class="eyebrow hero-eyebrow" data-reveal>Rongtang Log · Since 2024</p>
+          <h1 class="hero-title" data-hero-intro="title">以记录为媒介<br>留住日常温度</h1>
+          <p class="hero-copy" data-reveal data-reveal-delay="2">
+            这是个展示作品和分享故事的地方。从日常点滴到旅行见闻，<br>我们把平凡日子里那些值得被记住的瞬间，认真地留下来。
+          </p>
+          <div class="hero-actions" data-reveal data-reveal-delay="3">
+            <a class="btn btn--pink" href="#latest">
+              <span>看看最新发布</span>
+              <svg class="btn-arrow" viewBox="0 0 24 12" aria-hidden="true" focusable="false"><path d="M0 6h21M16 1l5 5-5 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a class="scroll-cue" id="scrollCue" href="#latest" aria-label="向下浏览最新发布">
+        <svg viewBox="0 0 28 14" aria-hidden="true" focusable="false"><path d="M1 1l13 11L27 1"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== 最新发布 ==================== -->
+  <section class="featured" id="latest">
+    <div class="shell shell-wide">
+      <div class="split split--tall featured-split">
+        <!-- 这一块默认内容只是兜底：js/index.js 会从 /api/works 取「首屏最新发布」那条覆盖它 -->
+        <figure class="split-media featured-media" data-reveal>
+          <a id="featLink" href="time.html" aria-label="打开最新发布：一万天倒计时">
+            <img id="featImg" src="https://img.sugrong.com/assets/gd1.jpg" alt="最新发布：一万天倒计时页面的封面" width="2732" height="1534" loading="lazy" decoding="async">
+          </a>
+        </figure>
+        <div class="split-body featured-body">
+          <p class="eyebrow" data-reveal>Latest note · 最新发布</p>
+          <h2 class="h2 featured-title" id="featTitle" data-reveal data-reveal-delay="1">最新一记</h2>
+          <p class="featured-meta" id="featMeta" data-reveal data-reveal-delay="2" hidden></p>
+          <p class="lede" id="featDesc" data-reveal data-reveal-delay="2">
+            当倒计时结束会有很好看的特效哟~希望你会喜欢这个小惊喜。
+          </p>
+          <div class="featured-actions" id="featActions" data-reveal data-reveal-delay="3">
+            <a class="btn btn--pink" id="featBtn" href="time.html">
+              <span id="featBtnText">阅读文章</span>
+              <svg class="btn-arrow" viewBox="0 0 24 12" aria-hidden="true" focusable="false"><path d="M0 6h21M16 1l5 5-5 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 关于小记 ==================== -->
+  <section class="section" id="intro">
+    <div class="shell split intro-split">
+      <div class="split-body intro-body">
+        <p class="eyebrow" data-reveal>About · 关于小记</p>
+        <h2 class="h2" data-reveal data-reveal-delay="1">用心生活 · 用心记录</h2>
+        <p class="lede" data-reveal data-reveal-delay="2">
+          戎糖小记始于 2024 年 4 月初，专注记录日常点滴、定格美好时光、分享自然风光。
+          这里的每一张照片、每一段文字，都来自真实生活里那些值得被记住的瞬间。
+          了解更多，点击下方“认识我们”按钮吧~
+        </p>
+        <ul class="stats" data-reveal data-reveal-delay="3">
+          <li><b data-count="2024">0</b><span>小记起始年份</span></li>
+          <li><b data-since="2024-04-01">0<i class="stat-suffix">天</i></b><span>运行天数</span></li>
+          <li><b data-count="127">0<i class="stat-suffix">+</i></b><span>照片与短文</span></li>
+        </ul>
+        <p class="intro-cta" data-reveal data-reveal-delay="4">
+          <a class="btn btn--pink btn--pink--sm" href="about.html">
+            <span>认识我们</span>
+            <svg class="btn-arrow" viewBox="0 0 24 12" aria-hidden="true" focusable="false"><path d="M0 6h21M16 1l5 5-5 5"/></svg>
+          </a>
+        </p>
+      </div>
+      <figure class="intro-media" data-reveal>
+        <img src="https://img.sugrong.com/assets/rongrong.png" alt="戎糖小记吉祥物戎戎" width="1280" height="1204" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================== 最近展示 ==================== -->
+  <section class="section recent-section" id="recent">
+    <div class="shell shell-wide">
+      <header class="section-head section-head--tight section-head--with-action" data-reveal>
+        <div class="section-head-main">
+          <p class="eyebrow">Recent · 最近文章</p>
+        </div>
+        <a class="section-head-action" href="works.html" aria-label="查看全部文章">
+          <span class="section-head-action_text">VIEW ALL</span>
+          <span class="section-head-action_icon" aria-hidden="true">
+            <svg class="btn-arrow" viewBox="0 0 24 12" focusable="false"><path d="M0 6h21M16 1l5 5-5 5"/></svg>
+          </span>
+        </a>
+      </header>
+
+      <!-- 静态兜底：接口挂了就显示这几行；正常情况下由 js/index.js 用作品集数据重建。
+           交互：默认一行紧凑（标签 + 标题 + 日期），鼠标移上去这一行展开、封面滑进来。 -->
+      <ul class="rec-list" id="recentList">
+          <li class="rec-row" data-reveal>
+            <a class="rec-link" href="time.html" aria-label="一万天倒计时">
+              <span class="rec-thumb">
+                <img src="https://img.sugrong.com/assets/gd1.jpg" alt="" width="264" height="164" loading="lazy" decoding="async">
+              </span>
+              <span class="rec-main">
+                <span class="rec-title">一万天倒计时</span>
+                <span class="rec-tag">互动页面</span>
+              </span>
+              <span class="rec-side">2026-10-21</span>
+            </a>
+          </li>
+          <li class="rec-row" data-reveal>
+            <a class="rec-link" href="https://mp.weixin.qq.com/s/Ydptq01KOBoXR7nXBdMh0Q" target="_blank" rel="noopener" aria-label="日常记录篇">
+              <span class="rec-thumb">
+                <img src="https://img.sugrong.com/assets/gd2.jpg" alt="" width="264" height="164" loading="lazy" decoding="async">
+              </span>
+              <span class="rec-main">
+                <span class="rec-title">日常记录篇</span>
+                <span class="rec-tag">日常记录</span>
+              </span>
+              <span class="rec-side">2024-05-18</span>
+            </a>
+          </li>
+          <li class="rec-row" data-reveal>
+            <a class="rec-link" href="https://mp.weixin.qq.com/s/G9l5XR7qGsJamSHsWNJnXw" target="_blank" rel="noopener" aria-label="节日记事篇">
+              <span class="rec-thumb">
+                <img src="https://img.sugrong.com/assets/gd3.jpg" alt="" width="264" height="164" loading="lazy" decoding="async">
+              </span>
+              <span class="rec-main">
+                <span class="rec-title">节日记事篇</span>
+                <span class="rec-tag">节日记录</span>
+              </span>
+              <span class="rec-side">2024-06-10</span>
+            </a>
+          </li>
+          <li class="rec-row" data-reveal>
+            <a class="rec-link" href="https://mp.weixin.qq.com/s/bEFJzfNgTC4qrh-viOcD5w" target="_blank" rel="noopener" aria-label="生日纪念篇">
+              <span class="rec-thumb">
+                <img src="https://img.sugrong.com/assets/gd4.jpg" alt="" width="264" height="164" loading="lazy" decoding="async">
+              </span>
+              <span class="rec-main">
+                <span class="rec-title">生日纪念篇</span>
+                <span class="rec-tag">生日记录</span>
+              </span>
+              <span class="rec-side">2024-07-26</span>
+            </a>
+          </li>
+          <li class="rec-row" data-reveal>
+            <div class="rec-link is-plain" aria-label="敬请期待：筹备中">
+              <span class="rec-thumb">
+                <img src="https://img.sugrong.com/assets/gd5.jpg" alt="" width="264" height="164" loading="lazy" decoding="async">
+              </span>
+              <span class="rec-main">
+                <span class="rec-title">敬请期待</span>
+                <span class="rec-tag">其他</span>
+              </span>
+              <span class="rec-side">筹备中</span>
+            </div>
+          </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================== 收尾：保持联系（关注 + 留言） ==================== -->
+  <section class="section" id="connect">
+    <div class="shell">
+      <div class="closing">
+        <div class="closing_body">
+          <p class="eyebrow" data-reveal>Keep in touch · 保持联系</p>
+          <h2 class="h2 closing_title" data-reveal data-reveal-delay="1">
+            一起记录，<em>一起分享</em>
+          </h2>
+          <p class="lede closing_lede" data-reveal data-reveal-delay="2">
+            记录、治愈、分享——三个词概括我们每天在做的事。想聊两句、想问点什么，扫码关注或者直接留言都行。
+          </p>
+          <ul class="closing_tags" data-reveal data-reveal-delay="3">
+            <li>记录</li>
+            <li>治愈</li>
+            <li>分享</li>
+          </ul>
+          <div class="closing_actions" data-reveal data-reveal-delay="4">
+            <a class="btn btn--pink btn--pink--sm" href="contact.html">
+              <span>给我们留言</span>
+              <svg class="btn-arrow" viewBox="0 0 24 12" aria-hidden="true" focusable="false"><path d="M0 6h21M16 1l5 5-5 5"/></svg>
+            </a>
+            <a class="closing_link" href="about.html">先认识我们</a>
+          </div>
+        </div>
+
+        <div class="closing_qrs">
+          <figure class="qr-mini" data-reveal data-reveal-delay="3">
+            <span class="qr-mini_frame">
+              <img src="https://img.sugrong.com/assets/QRone.jpg" alt="微信公众号「戎戎的糖咪小站」二维码" width="430" height="430" loading="lazy" decoding="async">
+            </span>
+            <figcaption><b>公众号</b>戎戎的糖咪小站</figcaption>
+          </figure>
+          <figure class="qr-mini" data-reveal data-reveal-delay="4">
+            <span class="qr-mini_frame">
+              <img src="https://img.sugrong.com/assets/QRtwo.jpg" alt="微信小程序「戎戎百宝箱」二维码" width="430" height="430" loading="lazy" decoding="async">
+            </span>
+            <figcaption><b>小程序</b>戎戎百宝箱</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell shell-wide footer-inner">
+    <a class="brand brand--footer" href="index.html" aria-label="戎糖小记 首页">
+      <img class="brand-logo" src="https://img.sugrong.com/assets/左logo.png" alt="戎糖小记 logo" width="3312" height="1067" loading="lazy" decoding="async">
+    </a>
+    <nav class="footer-nav" aria-label="页脚导航">
+      <a href="index.html">首页</a>
+      <a href="works.html">我的作品</a>
+      <a href="about.html">关于我们</a>
+      <a href="contact.html">联系我们</a>
+      <a href="tools.html">工具箱</a>
+    </nav>
+    <p class="footer-note">© <span data-year>2025</span> 戎糖小记 · 戎戎的糖咪小站 · 用心生活，用心记录</p>
+  </div>
+</footer>
+</div><!-- /.page-wrap -->
+
+<script src="js/app.js?v=82" defer></script>
+<script src="js/index.js?v=8" defer></script>
+<script>window.__CF$cv$params={r:'a4ee87be1b32deed',t:'MTc5MjczNTMxOA==',u:'01a1675a12ea75ada3685f794c9107a0',ut:'k3mUuR30tLV1VyrCsGCpP53UbNgNeKtxNNsC7LLqSig-1792735318-1.2.1.1-fHHdBv_N2Owy5_2_r8iYCXmuattFTSV_ZLYMsHAFwWZOST.r1b0wahrCg.FNHayRZlEZUrm.eHS49teqMs48Z2kwEF3yZ2Y2O4OEdQDKOzk',i:60};(function(){if(!document.body)return;var s=document.createElement('script');s.src='/cdn-cgi/challenge-platform/scripts/precursor/main.js';document.head.appendChild(s);})();</script></body>
+</html>

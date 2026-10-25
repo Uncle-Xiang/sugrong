@@ -1,0 +1,719 @@
+/* =========================================================================
+   戎糖小记 · index.css（首页 页面独有样式）
+   只放 index.html 才用到的规则：
+     最新发布（左大图 + 右文案）/ 两栏分栏布局 / 区块标题右侧跳转按钮 /
+     最近展示轮播外观 / 三件小事 / 关注我们二维码卡
+   全站公共部分（设计令牌 / reset / 导航 / 页脚 / 首图 / 数字统计 /
+   滚动进场 / 按钮）一律在 css/common.css，这里不重复。
+   轮播的位移与暂停逻辑在 js/app.js 的 initCarousel，这里只定外观和尺寸。
+   ========================================================================= */
+
+/* =========================================================================
+   一、最新发布（左大图 + 右文案，整块铺淡粉）
+   ========================================================================= */
+.featured {
+  /* 底色由 common.css 的 section 交替规则接管（首图后的第 2 段 = 浅粉），这里不再手写 */
+  padding: clamp(52px, 7vw, 104px) 0;
+}
+.featured-split { grid-template-columns: 1.02fr .98fr; }
+
+/* 参考图是大图无圆角，只留一层浅影 */
+.featured-media {
+  border-radius: 0;
+  box-shadow: var(--shadow-sm);
+  margin: 0;
+}
+.featured-media a { display: block; height: 100%; }
+.featured-media img {
+  width: 100%;
+  height: clamp(340px, 60vh, 640px);
+  object-fit: cover;
+  transition: transform 1.2s var(--ease);
+}
+.featured-media:hover img { transform: scale(1.04); }
+
+.featured-body { align-self: center; padding-block: clamp(10px, 3vw, 40px); }
+.featured-title {
+  font-size: clamp(30px, 3.4vw, 52px);
+  margin-top: 2px;
+}
+.featured-body .lede { margin-top: 20px; line-height: 2.2; }
+.featured-actions { margin-top: clamp(24px, 3vw, 40px); }
+
+/* =========================================================================
+   二、两栏分栏（最新发布 / 关于小记 共用）
+   ========================================================================= */
+.split {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: clamp(26px, 4.5vw, 72px);
+  align-items: center;
+}
+/* 更宽的栏间距 + 顶部对齐（图文各自从顶部开始） */
+.split--tall { gap: clamp(30px, 4.6vw, 88px); }
+.split--top { align-items: start; }
+.split-media {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.split-media img { width: 100%; height: 100%; object-fit: cover; }
+.split-body { max-width: 56ch; }
+/* 小尺寸配图（关于小记的吉祥物），别撑满整栏 */
+.split-media--sm img { max-height: clamp(260px, 34vw, 420px); margin-inline: auto; }
+
+/* =========================================================================
+   三、区块标题右侧的跳转按钮（「最近展示」→ 我的作品）
+   -------------------------------------------------------------------------
+   重新设计（2026-10-25）：
+   旧版是一颗常驻的实心粉胶囊，在浅粉区块底上太抢眼，还和主按钮
+   「阅读文章」撞风格；大字距英文在窄屏上容易把标题挤到换行。
+   新版改为「白底幽灵胶囊 + 圆环箭头」：
+     · 默认：半透明白底、玫瑰细描边、珊瑚红文字，箭头收在右侧小圆环里，
+       安安静静挂在标题旁，不抢正文的注意力；
+     · 悬停 / 键盘聚焦：渐变粉填充淡入、文字转白，圆环反白、箭头反复右移，
+       并保留原有的斜向扫光；
+     · 按下：回落到基准位、阴影收紧，给触屏一个明确反馈。
+   响应式三档：
+     · 桌面：标题居中，按钮绝对定位贴在右上角；
+     · ≤980px：按钮回到文档流，与标题同行、右对齐，尺寸略收；
+     · ≤640px：改为上下堆叠（标题在上、按钮在下左对齐），再缩一档，
+       避免大字距的「VIEW ALL」在 360px 窄屏上把标题挤爆。
+   ========================================================================= */
+.section-head--with-action {
+  position: relative;
+  display: block;
+  text-align: center;
+  padding-bottom: clamp(16px, 2.2vw, 30px);
+}
+.section-head--with-action > .section-head-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.section-head--with-action > .section-head-action {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  /* 悬停「上浮」时仍保持垂直居中：在基准偏移上再向上移（见下方 :hover） */
+  --action-shift: -50%;
+  transform: translateY(var(--action-shift));
+}
+.section-head-action {
+  position: relative;
+  isolation: isolate;                  /* 兜住 z-index:-1 的渐变填充层 */
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 5px 5px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 143, 163, .55);
+  background-color: rgba(255, 255, 255, .85);
+  color: var(--coral-deep);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  white-space: nowrap;
+  overflow: hidden;                     /* 裁剪扫光层，保持胶囊形状 */
+  box-shadow: 0 6px 16px rgba(214, 116, 126, .12);
+  transition: transform .28s var(--ease), box-shadow .28s var(--ease),
+              border-color .28s var(--ease), color .28s var(--ease);
+}
+/* 渐变填充层：默认透明，悬停时淡入（渐变本身无法过渡，用 opacity 代替） */
+.section-head-action::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--rose) 100%);
+  opacity: 0;
+  transition: opacity .28s var(--ease);
+}
+/* 扫光：斜向高光条，默认停在左侧外面 */
+.section-head-action::after {
+  content: '';
+  position: absolute;
+  top: -60%; bottom: -60%;
+  left: 0;
+  width: 42%;
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .55) 50%, rgba(255, 255, 255, 0) 100%);
+  transform: rotate(16deg) translateX(-430%);
+  opacity: 0;
+  pointer-events: none;
+}
+/* 右侧圆环箭头：浅粉底 + 珊瑚箭头，悬停时反白 */
+.section-head-action_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 188, 197, .38);
+  transition: background-color .28s var(--ease);
+}
+.section-head-action .btn-arrow { width: 16px; height: 8px; }
+
+.section-head-action:hover,
+.section-head-action:focus-visible {
+  transform: translateY(calc(var(--action-shift, 0px) - 2px));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(214, 116, 126, .28);
+}
+.section-head-action:hover::before,
+.section-head-action:focus-visible::before { opacity: 1; }
+.section-head-action:hover::after,
+.section-head-action:focus-visible::after { animation: action-sheen .85s linear forwards; }
+.section-head-action:hover .section-head-action_icon,
+.section-head-action:focus-visible .section-head-action_icon { background: #fff; }
+/* 圆环反白后箭头换成珊瑚色，否则白箭头白底看不见 */
+.section-head-action:hover .btn-arrow path,
+.section-head-action:focus-visible .btn-arrow path { stroke: var(--coral); }
+.section-head-action:hover .btn-arrow { animation: nudge .7s var(--ease) infinite alternate; }
+.section-head-action:active {
+  transform: translateY(var(--action-shift, 0px));
+  box-shadow: 0 3px 10px rgba(214, 116, 126, .26);
+}
+.section-head-action:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+@keyframes action-sheen {
+  0%   { opacity: 0; transform: rotate(16deg) translateX(-430%); }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { opacity: 0; transform: rotate(16deg) translateX(340%); }
+}
+
+/* =========================================================================
+   四、最近文章（列表式：粉色小标签 + 标题 + 右侧状态，悬停才浮出封面图）
+   -------------------------------------------------------------------------
+   数据来自 D1 作品集（js/index.js 渲染，静态 5 行只作兜底）。
+   悬停封面是一张 position:fixed 的浮窗，由 JS 跟着鼠标摆位置，不占布局。
+   ========================================================================= */
+/* =========================================================================
+   首图刷新动画（Ken Burns：先「对焦」归位，再缓慢推近）
+   -------------------------------------------------------------------------
+   缩放放在 .hero-zoom 这一层，img 自身的 transform 仍归 hover 用，两者不打架。
+   由 app.js 在首图就绪后给 .hero-media 加 is-live 再启动。
+   ========================================================================= */
+.hero-zoom { position: absolute; inset: 0; }
+/* 从 scale(1) 开始只往上漂：起始值必须等于当前值，否则 is-live 一加上去就会「跳」一下
+   （父子两层缩放相乘，父层推近还没演完时尤其明显） */
+@keyframes hero-ken-burns {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.07); }
+}
+.hero-media.is-live .hero-zoom {
+  animation: hero-ken-burns 9s cubic-bezier(.24, .72, .28, 1) both;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-media.is-live .hero-zoom { animation: none; }
+}
+
+.recent-section { padding-top: clamp(36px, 5vw, 60px); }
+/* 窄屏小标题别换行（字距大，容易把「文章」挤到第二行） */
+@media (max-width: 900px) {
+  #recent .eyebrow { white-space: nowrap; font-size: 15px; letter-spacing: .12em; }
+}
+/* =========================================================================
+   最近文章：可展开的行列表（参考站长给的录屏）
+   -------------------------------------------------------------------------
+   默认：一行紧凑 —— [类型胶囊] 标题 …………………………… 日期
+   悬停/键盘聚焦：这一行展开 —— 封面从左侧滑进来、标题变大、胶囊移到标题下方
+   用 grid 的两套模板切换位置；宽度/高度/透明度都走过渡，所以是「撑开」而不是跳变。
+   ========================================================================= */
+.rec-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.rec-row {
+  border-bottom: 1px dashed rgba(255, 143, 163, .55);
+}
+.rec-row:first-child { border-top: 1px dashed rgba(255, 143, 163, .55); }
+
+.rec-link {
+  display: grid;
+  /* 三列：封面 / 正文 / 右侧日期。
+     封面列必须是 auto —— 写死 0 的话缩略图只是溢出到正文上、把标题盖住，
+     用 auto 才会跟着封面的 width 过渡一起把这一列撑开 */
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0 clamp(12px, 2vw, 22px);
+  padding: clamp(16px, 1.6vw, 22px) clamp(4px, 1vw, 12px);
+  text-decoration: none;
+  transition: background .35s var(--ease), padding .35s var(--ease);
+}
+.rec-link.is-plain { cursor: default; }
+
+/* 封面：默认宽高都是 0（占位不撑高度），展开时撑到 132×82 */
+.rec-thumb {
+  display: block;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--pink-mist);
+  box-shadow: 0 6px 18px rgba(255, 107, 107, .18);
+  transition: width .38s var(--ease), height .38s var(--ease),
+              opacity .28s var(--ease), transform .38s var(--ease);
+  transform: translateX(-10px) scale(.94);
+}
+.rec-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.rec-link:hover .rec-thumb,
+.rec-link:focus-visible .rec-thumb {
+  width: clamp(150px, 13vw, 196px);
+  height: clamp(94px, 8.2vw, 124px);
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+/* 正文：紧凑时 [胶囊][标题] 一行；展开时 标题在上、胶囊在下 */
+.rec-main {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0 clamp(10px, 1.4vw, 16px);
+  min-width: 0;
+}
+.rec-tag {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: clamp(11.5px, 1vw, 12.5px);
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: #fff;
+  white-space: nowrap;
+  /* 参考图里是实心珊瑚粉胶囊 */
+  background: linear-gradient(120deg, #ff9aa8, #ff7f8f);
+  box-shadow: 0 3px 10px rgba(255, 127, 143, .3);
+  transition: background .3s var(--ease);
+}
+.rec-title {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  font-size: clamp(16px, 1.5vw, 19px);
+  font-weight: 600;
+  color: var(--ink);
+  transition: color .3s var(--ease), font-size .3s var(--ease);
+}
+/* 展开态：一列，标题在上、胶囊在下，标题加大 */
+.rec-link:hover .rec-main,
+.rec-link:focus-visible .rec-main {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.rec-link:hover .rec-title,
+.rec-link:focus-visible .rec-title {
+  grid-column: 1;
+  grid-row: 1;
+  /* 参考录屏里标题保持深色，靠字号 + 封面出现来提示，不额外变色 */
+  font-size: clamp(18px, 1.75vw, 22px);
+}
+.rec-link:hover .rec-tag,
+.rec-link:focus-visible .rec-tag {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+/* 右侧：日期 / 筹备中 */
+.rec-side {
+  font-size: clamp(12px, 1.1vw, 13.5px);
+  color: var(--ink-3);
+  letter-spacing: .02em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.rec-link:hover .rec-side { color: var(--ink-2); }
+
+/* 键盘可达性：聚焦时也给一条淡粉底 */
+.rec-link:focus-visible {
+  outline: none;
+  background: rgba(255, 236, 240, .6);
+  border-radius: 14px;
+}
+
+/* ---------- 窄屏 / 触屏没有 hover：封面常显小尺寸，胶囊回到标题左边 ---------- */
+@media (hover: none), (max-width: 900px) {
+  .rec-link {
+    grid-template-columns: auto 1fr auto;
+    gap: 0 clamp(10px, 2.4vw, 16px);
+  }
+  .rec-thumb {
+    width: clamp(76px, 20vw, 96px);
+    height: clamp(50px, 13vw, 62px);
+    opacity: 1;
+    transform: none;
+  }
+  .rec-title { font-size: clamp(15px, 3.8vw, 17px); }
+  .rec-tag { padding: 3px 9px; font-size: 11px; border-radius: 7px; }
+  .rec-side { font-size: 11.5px; }
+}
+
+/* =========================================================================
+   五、收尾合并块（原「三件小事」+「关注我们」合成一块）
+   -------------------------------------------------------------------------
+   记录 / 治愈 / 分享 在「关于」页已经讲透了，这里不再展开成三段，只做三个标签；
+   右侧两张小二维码 + 一个留言按钮，作为首页的收尾段落。
+   视觉：卡片带一层粉白渐变 + 背后一团柔光，二维码各自有白色小底座、悬停轻抬。
+   进场：文案逐件上浮（data-reveal 阶梯延迟），二维码从下往上「弹」进来。
+   ========================================================================= */
+#connect { position: relative; isolation: isolate; }
+/* 卡片背后的一团柔粉光，从卡片边缘透出来，让它像浮在粉色空气里 */
+#connect::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  left: 10%;
+  right: 10%;
+  top: 31%;
+  bottom: 3%;
+  background: radial-gradient(58% 62% at 76% 26%, rgba(255, 188, 197, .55), rgba(255, 188, 197, 0) 72%);
+  filter: blur(12px);
+  pointer-events: none;
+}
+.closing {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.18fr .82fr;
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  padding: clamp(26px, 3.6vw, 56px);
+  border-radius: clamp(22px, 2.6vw, 34px);
+  /* 白 → 极浅粉的斜向渐变，比纯白更有层次（别太粉，否则和背后的光糊在一起） */
+  background: linear-gradient(148deg, #ffffff 0%, #fffcfc 55%, #fff6f8 100%);
+  border: 1px solid rgba(255, 188, 197, .38);
+  box-shadow:
+    0 2px 4px rgba(255, 107, 107, .04),
+    0 18px 44px rgba(255, 107, 107, .10);
+  overflow: hidden;
+  isolation: isolate;
+}
+/* 卡片内的一层高光，压在渐变之上、内容之下 */
+.closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, .95), rgba(255, 255, 255, 0) 62%);
+  pointer-events: none;
+}
+.closing > * { position: relative; z-index: 1; }
+
+.closing_body { max-width: 46ch; }
+.closing_title {
+  margin-top: 4px;
+  font-size: clamp(26px, 2.7vw, 40px);
+}
+/* 后半句用荧光笔划一下：圆角短笔触、颜色压淡，比整句同色更有重点又不糊 */
+.closing_title em {
+  position: relative;
+  z-index: 0;
+  font-style: normal;
+  color: var(--coral-deep);
+  padding-inline: 2px;
+}
+.closing_title em::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: -2px;
+  right: -2px;
+  bottom: 1px;
+  height: .44em;
+  border-radius: 5px;
+  background: linear-gradient(90deg, rgba(255, 188, 197, .28), rgba(255, 188, 197, .62) 18%, rgba(255, 188, 197, .62) 82%, rgba(255, 188, 197, .28));
+}
+.closing_lede { margin-top: clamp(12px, 1.6vw, 18px); }
+
+/* 三个词：带小圆点的胶囊 */
+.closing_tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: clamp(18px, 2.4vw, 26px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.closing_tags li {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px 7px 13px;
+  border-radius: 999px;
+  font-size: 14px;
+  letter-spacing: .04em;
+  color: var(--coral-deep);
+  background: rgba(255, 255, 255, .82);
+  border: 1px solid rgba(255, 188, 197, .5);
+  box-shadow: 0 2px 8px rgba(255, 107, 107, .06);
+}
+.closing_tags li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin-right: 8px;
+  background: var(--coral);
+}
+
+.closing_actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(14px, 2vw, 22px);
+  margin-top: clamp(22px, 3vw, 32px);
+}
+.closing_link {
+  font-size: 14px;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--line);
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.closing_link:hover { color: var(--coral-deep); border-color: var(--pink); }
+
+/* 两张二维码：白底座 + 轻阴影，悬停微微抬起并倾斜 */
+.closing_qrs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: center;
+  justify-items: center;
+  gap: clamp(14px, 2vw, 26px);
+}
+.qr-mini { margin: 0; text-align: center; }
+.qr-mini_frame {
+  display: block;
+  padding: 10px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--line-soft);
+  box-shadow: 0 8px 22px rgba(255, 107, 107, .12);
+  transition: transform .45s var(--ease), box-shadow .45s var(--ease);
+}
+.qr-mini_frame:hover {
+  transform: translateY(-6px) rotate(-2deg);
+  box-shadow: 0 18px 36px rgba(255, 107, 107, .2);
+}
+.qr-mini img {
+  width: 100%;
+  max-width: 136px;
+  /* 必须显式 height:auto：<img width height> 属性会被当作 CSS 高度提示（430px），
+     否则图片会被拉成长条、aspect-ratio 也不生效 */
+  height: auto;
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
+  object-fit: contain;
+  display: block;
+  border-radius: 8px;
+}
+.qr-mini figcaption {
+  margin-top: 10px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+.qr-mini figcaption b { display: block; color: var(--ink-2); font-weight: 600; }
+
+/* ---------- 进场：二维码带一点缩放回弹，文案逐件上浮 ---------- */
+.js .closing .qr-mini[data-reveal]:not(.is-in) {
+  transform: translateY(20px) scale(.88);
+}
+.js .closing .qr-mini[data-reveal] {
+  transition: opacity .8s var(--ease),
+              transform .9s cubic-bezier(.16, .84, .32, 1.12);
+}
+
+@media (max-width: 900px) {
+  .closing {
+    grid-template-columns: 1fr;
+    gap: clamp(22px, 4vw, 30px);
+    padding: clamp(22px, 5vw, 32px);
+  }
+  .closing_body { max-width: none; }
+  .closing_qrs { max-width: 300px; }
+  .qr-mini img { max-width: 120px; }
+  #connect::before { left: 4%; right: 4%; top: 40%; }
+}
+@media (max-width: 400px) {
+  .closing_qrs { max-width: none; }
+}
+
+/* =========================================================================
+   响应式
+   ========================================================================= */
+/* 中屏：分栏合一行，右侧按钮从「绝对定位贴在标题旁」改回文档流，避免压字 */
+@media (max-width: 980px) {
+  .split { grid-template-columns: 1fr; }
+  .split-body { max-width: none; }
+  .section-head--with-action {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(10px, 2.4vw, 20px);
+    padding-bottom: 0;
+  }
+  .section-head--with-action > .section-head-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .section-head--with-action > .section-head-action {
+    position: relative;
+    right: auto;
+    top: auto;
+    flex: 0 0 auto;
+    --action-shift: 0px;
+  }
+  .section-head-action { display: flex; width: fit-content; }
+  /* 与标题同行时略收一档，别比标题还醒目 */
+  .section-head-action {
+    gap: 10px;
+    padding: 4px 4px 4px 18px;
+    font-size: 12.5px;
+    letter-spacing: .12em;
+    box-shadow: 0 4px 12px rgba(214, 116, 126, .1);
+  }
+  .section-head-action_icon { width: 26px; height: 26px; }
+  .section-head-action .btn-arrow { width: 14px; height: 7px; }
+}
+
+/* 手机：标题在上、按钮在下（左对齐），再缩一档；
+   360px 窄屏也能整颗放下，不会把 nowrap 的标题挤爆 */
+@media (max-width: 640px) {
+  .section-head--with-action {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .section-head-action {
+    gap: 9px;
+    padding: 4px 4px 4px 16px;
+    font-size: 12px;
+    letter-spacing: .1em;
+  }
+  .section-head-action_icon { width: 26px; height: 26px; }
+  .section-head-action .btn-arrow { width: 14px; height: 7px; }
+}
+
+/* 窄屏：首图大图改比例 */
+@media (max-width: 768px) {
+  .featured-media img { height: auto; aspect-ratio: 16 / 10; }
+}
+
+/* 动效降级：首图悬停放大、最近文章的展开、VIEW ALL 的扫光都不要过渡 */
+@media (prefers-reduced-motion: reduce) {
+  .featured-media img,
+  .rec-thumb,
+  .rec-title,
+  .rec-main { transition: none; }
+  .section-head-action,
+  .section-head-action::before,
+  .section-head-action_icon { transition: none; }
+  .section-head-action:hover::after,
+  .section-head-action:focus-visible::after,
+  .section-head-action:hover .btn-arrow { animation: none; }
+}
+
+/* =========================================================================
+   最新发布（重排）：文字块垂直居中；标题下加「类型 · 日期」小字；
+   按钮上方一条细分割线，右栏底部不再空一大块
+   ========================================================================= */
+.featured-split { grid-template-columns: 1.06fr .94fr; align-items: center; }
+.featured-body { align-self: center; }
+.featured-body .eyebrow { margin-bottom: clamp(16px, 2.2vw, 24px); }
+.featured-title { margin-top: 0; }
+.featured-meta {
+  margin-top: 14px;
+  font-size: 13px;
+  letter-spacing: .1em;
+  color: var(--ink-3);
+}
+.featured-meta[hidden] { display: none; }
+.featured-body .lede { margin-top: clamp(14px, 1.8vw, 20px); }
+.featured-actions {
+  position: relative;
+  margin-top: clamp(26px, 3.4vw, 40px);
+  padding-top: clamp(22px, 2.8vw, 32px);
+}
+/* 按钮上方的短装饰线，比整条分割线更轻 */
+.featured-actions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 56px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--coral), rgba(255, 107, 107, 0));
+}
+
+/* =========================================================================
+   关于小记（重排）：文字在左、插画在右（原来左右相反）
+   插画装进浅粉内嵌框，四周留白，背后一团柔光，避免白底图生硬贴上去
+   ========================================================================= */
+.intro-split {
+  grid-template-columns: 1.12fr .88fr;
+  gap: clamp(30px, 5vw, 88px);
+}
+.intro-body { max-width: 56ch; }
+.intro-media {
+  position: relative;
+  isolation: isolate;
+  margin: 0;
+  padding: clamp(14px, 2vw, 26px) clamp(14px, 2vw, 26px) clamp(6px, 1vw, 12px);
+  border-radius: clamp(20px, 2.4vw, 30px);
+  background: radial-gradient(120% 100% at 30% 15%, #fff0f3 0%, #fff6f7 45%, #fffafb 100%);
+  box-shadow: none;
+  overflow: visible;
+}
+/* 背后的柔光，让插画像浮在粉色空气里 */
+.intro-media::before {
+  content: '';
+  position: absolute;
+  inset: 12% 10% -2% 10%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 107, 107, .18), rgba(255, 107, 107, 0) 72%);
+}
+.intro-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  /* 插画是白底线稿：multiply 让白色透出底下的粉色，避免出现一块白卡片 */
+  mix-blend-mode: multiply;
+  /* 原图在胸口处就截断了，底部加一道渐隐，让它溶进粉底而不是硬切一刀 */
+  -webkit-mask-image: linear-gradient(180deg, #000 84%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 84%, transparent 100%);
+}
+.intro-cta { margin-top: clamp(24px, 3vw, 34px); }
+@media (max-width: 900px) {
+  .intro-media { max-width: 360px; margin-inline: auto; }
+}
+
+/* 窄屏必须单列：.intro-split / .featured-split 的列定义在文件末尾，
+   specificity 与前面 @media 里的 .split 相同但更靠后，会把单列规则压掉 —— 这里显式重置 */
+@media (max-width: 900px) {
+  .intro-split,
+  .featured-split { grid-template-columns: 1fr; }
+  .intro-split { gap: clamp(24px, 5vw, 36px); }
+  .intro-media { max-width: 340px; margin-inline: auto; }
+  .featured-body .lede { margin-top: 14px; }
+}

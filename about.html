@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>戎糖小记 · 关于我们</title>
+<meta name="description" content="戎糖小记（戎戎的糖咪小站）始于 2024 年 4 月初，是一个专注记录日常点滴、定格美好时光、分享自然风光的个人治愈网页平台。">
+<meta name="theme-color" content="#ffbcc5">
+<link rel="icon" href="https://img.sugrong.com/assets/左logo.png">
+<link rel="preconnect" href="https://img.sugrong.com">
+<link rel="dns-prefetch" href="https://img.sugrong.com">
+<link rel="stylesheet" href="css/common.css?v=10">
+<link rel="stylesheet" href="css/about.css?v=25">
+<script>
+  document.documentElement.classList.add('js');
+  /* 刷新即回到最顶部：禁用浏览器默认的滚动位置恢复 */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  /* 兜底：即使页面脚本异常，4.2s 后也强制撤下加载封面 */
+  window.setTimeout(function () {
+    if (document.body) document.body.classList.add('is-ready');
+  }, 4200);
+</script>
+<style>
+  /* 刷新加载特效·关键样式（内联）：外部样式表就绪前先遮住内容，
+     避免刷新瞬间闪出未动画的布局 */
+  html.js body:not(.is-ready) { overflow: hidden; }
+  html.js body:not(.is-ready) .page-wrap { opacity: 0; }
+  html.js .page-cover {
+    position: fixed; inset: 0; z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff8f9;
+    transition: opacity .45s ease, visibility .45s ease;
+  }
+  html.js body.is-ready .page-cover { opacity: 0; visibility: hidden; pointer-events: none; }
+  html:not(.js) .page-cover { display: none; }
+</style>
+</head>
+<body class="page-photo-top">
+
+<div class="page-cover" aria-hidden="true">
+  <div class="page-cover_box">
+    <span class="page-cover_brand">戎糖小记</span>
+    <span class="page-cover_sub">Rongtang Log</span>
+    <span class="page-cover_bar"><i></i></span>
+  </div>
+</div>
+
+<div class="page-wrap">
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="shell shell-wide header-inner">
+    <a class="brand" href="index.html" aria-label="戎糖小记 首页">
+        <span class="brand-text">
+          <span class="brand-name">戎糖小记</span>
+          <span class="brand-en">Rongtang Log</span>
+        </span>
+    </a>
+    <nav class="nav" id="primaryNav" aria-label="主导航">
+      <ul class="nav-list">
+        <li><a class="nav-link" href="index.html">首页</a></li>
+        <li><a class="nav-link" href="works.html">我的作品</a></li>
+        <li><a class="nav-link" href="about.html">关于我们</a></li>
+        <li><a class="nav-link" href="contact.html">联系我们</a></li>
+        <li><a class="nav-link" href="tools.html">工具箱</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="打开菜单">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ==================== 概念版首图：滚动驱动 ==================== -->
+  <section class="about-hero">
+    <h1 class="sr-only">戎糖小记 · 关于我们</h1>
+    <div class="card-hero_pad">
+      <!-- 滚动容器：由 about.js 写入 --progress(0 -> 1) -->
+      <div class="card-hero_scroll about-hero_scroll" data-hero-progress>
+        <!-- 吸滞文字层 -->
+        <div class="card-hero_sticky">
+          <div class="about-hero_grid">
+            <div class="about-hero_col">
+              <span class="about-hero_line" aria-hidden="true"></span>
+              <div class="about-hero_head">
+                <span class="about-hero_title" data-hero-intro="title" aria-hidden="true">记录</span>
+                <span class="about-hero_en" data-hero-intro="title">Record.</span>
+              </div>
+              <div class="about-hero_para">
+                <p>我们始终坚信，平凡的日常藏着细碎温柔，普通的日子亦有值得珍藏的光芒。每一份微小的热爱与梦想，都值得用心奔赴、认真铭记。特此搭建小站，定格转瞬即逝的美好。</p>
+              </div>
+            </div>
+            <div class="about-hero_col">
+              <span class="about-hero_line" aria-hidden="true"></span>
+              <div class="about-hero_head">
+                <span class="about-hero_title" data-hero-intro="title" aria-hidden="true">美好</span>
+                <span class="about-hero_en" data-hero-intro="title">Lovely.</span>
+              </div>
+              <div class="about-hero_para">
+                <p>我们小记始终秉持“用心生活，用心记录”的初心，致力于打造一处温暖、治愈的线上小空间，不妨停下脚步，心怀热爱，日日拥抱温柔与欢喜，奔赴一段又一段松弛的时光。</p>
+              </div>
+            </div>
+            <div class="about-hero_col">
+              <span class="about-hero_line" aria-hidden="true"></span>
+              <div class="about-hero_head">
+                <span class="about-hero_title" data-hero-intro="title" aria-hidden="true">时光</span>
+                <span class="about-hero_en" data-hero-intro="title">Times.</span>
+              </div>
+              <div class="about-hero_para">
+                <p>我们珍惜平凡时光，收藏和毛孩子相伴的温暖瞬间，沉淀为珍贵回忆。小记始终以真诚为底色，持续分享真实的生活感悟、治愈的旅行见闻、烟火的美食体验与纯粹的创作灵感。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 背景媒体卡片：随滚动收缩 -->
+        <div class="card-hero_bg about-hero_bg" data-hero-about="background" aria-hidden="true">
+          <div class="card-hero_bg-inner" data-hero-bg-inner>
+            <div class="card-hero_media">
+              <img class="card-hero_img" src="https://img.sugrong.com/assets/about.jpg" alt="" width="2732" height="1534" fetchpriority="high">
+            </div>
+            <div class="card-hero_scrim"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 移动端堆叠块 -->
+    <div class="about-hero_mobile">
+      <div class="about-hero_mobile-block" data-anim-parent>
+        <span class="about-hero_mobile-line anim-scale-y" style="--anim-delay: 0s" aria-hidden="true"></span>
+        <div class="about-hero_mobile-head">
+          <span class="about-hero_mobile-title anim-text" data-animation="split" style="--anim-delay: 0s">记录</span>
+          <span class="about-hero_mobile-en">Record.</span>
+        </div>
+        <div class="about-hero_mobile-para anim-fade" style="--anim-delay: 0.1s">
+          <p>我们始终坚信，平凡的日常藏着细碎温柔，普通的日子亦有值得珍藏的光芒。每一份微小的热爱与梦想，都值得用心奔赴、认真铭记。特此搭建小站，定格转瞬即逝的美好。</p>
+        </div>
+      </div>
+      <div class="about-hero_mobile-block" data-anim-parent>
+        <span class="about-hero_mobile-line anim-scale-y" style="--anim-delay: 0.1s" aria-hidden="true"></span>
+        <div class="about-hero_mobile-head">
+          <span class="about-hero_mobile-title anim-text" data-animation="split" style="--anim-delay: 0.1s">美好</span>
+          <span class="about-hero_mobile-en">Lovely.</span>
+        </div>
+        <div class="about-hero_mobile-para anim-fade" style="--anim-delay: 0.2s">
+          <p>我们小记始终秉持“用心生活，用心记录”的初心，致力于打造一处温暖、治愈的线上小空间，不妨停下脚步，心怀热爱，日日拥抱温柔与欢喜，奔赴一段又一段松弛的时光。</p>
+        </div>
+      </div>
+      <div class="about-hero_mobile-block" data-anim-parent>
+        <span class="about-hero_mobile-line anim-scale-y" style="--anim-delay: 0.2s" aria-hidden="true"></span>
+        <div class="about-hero_mobile-head">
+          <span class="about-hero_mobile-title anim-text" data-animation="split" style="--anim-delay: 0.2s">时光</span>
+          <span class="about-hero_mobile-en">Times.</span>
+        </div>
+        <div class="about-hero_mobile-para anim-fade" style="--anim-delay: 0.3s">
+          <p>我们珍惜平凡时光，收藏和毛孩子相伴的温暖瞬间，沉淀为珍贵回忆。小记始终以真诚为底色，持续分享真实的生活感悟、治愈的旅行见闻、烟火的美食体验与纯粹的创作灵感。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 我们会记录什么 ==================== -->
+  <section class="section" id="topics">
+    <div class="shell">
+      <header class="section-head section-head--tight" data-reveal>
+        <p class="eyebrow">Topics · 这里会有什么</p>
+        <h2 class="sr-only">四个常驻栏目</h2>
+      </header>
+
+      <ol class="topic-list">
+        <li class="topic-row" data-reveal>
+          <div class="topic-row_media">
+            <img src="https://img.sugrong.com/assets/at1.jpg" alt="" loading="lazy" width="1792" height="1344">
+          </div>
+          <h3 class="topic-row_title">节日祝福</h3>
+          <p class="topic-row_text">在充满仪式感的节日里，收集烟火气息与暖意。把团圆、欢喜和节日独有的浪漫记录下来，一帧帧，都是岁月馈赠的温柔印记。</p>
+        </li>
+        <li class="topic-row" data-reveal data-reveal-delay="1">
+          <div class="topic-row_media">
+            <img src="https://img.sugrong.com/assets/at2.jpg" alt="" loading="lazy" width="1792" height="1344">
+          </div>
+          <h3 class="topic-row_title">风景旅记</h3>
+          <p class="topic-row_text">看落日漫过山脊，晚风揉碎云霞，花草在旷野轻轻摇晃。把沿途的落日、晚风与山野浪漫一一收藏，旅途里所有温柔风景，都成为记忆里闪闪发光的碎片。</p>
+        </li>
+        <li class="topic-row" data-reveal data-reveal-delay="2">
+          <div class="topic-row_media">
+            <img src="https://img.sugrong.com/assets/at3.jpg" alt="" loading="lazy" width="1792" height="1344">
+          </div>
+          <h3 class="topic-row_title">生日时光</h3>
+          <p class="topic-row_text">在属于自己的特别日子里，伴随着蛋糕甜软，气球轻盈，烟火细碎闪烁，把岁岁平安的心愿，悄悄收进时光相册。每次生辰，都是美好的纪念。</p>
+        </li>
+        <li class="topic-row" data-reveal data-reveal-delay="3">
+          <div class="topic-row_media">
+            <img src="https://img.sugrong.com/assets/at4.jpg" alt="" loading="lazy" width="1792" height="1344">
+          </div>
+          <h3 class="topic-row_title">灵感收藏</h3>
+          <p class="topic-row_text">伏案执笔，灯火温柔相伴。画笔、颜料与草稿纸，装下随时冒出来的奇思。那些慢慢生长的灵感，在一笔一画之间，变成独属于自己的小世界。</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ==================== 数字 ==================== -->
+  <section class="section about-numbers-sec">
+    <span class="about-numbers_deco about-numbers_deco--a" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.7-9.7-9C.7 8.6 2.4 4.8 6 4.8c2 0 3.4 1.1 4 2.3.6-1.2 2-2.3 4-2.3 3.6 0 5.3 3.8 3.7 7.2C19.5 16.3 12 21 12 21z"/></svg>
+    </span>
+    <span class="about-numbers_deco about-numbers_deco--b" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l1.7 5.3 5.3 1.7-5.3 1.7L12 16.5l-1.7-5.3L5 9.5l5.3-1.7L12 2.5z"/></svg>
+    </span>
+    <div class="shell">
+      <header class="section-head about-numbers_head" data-reveal>
+        <div>
+          <p class="eyebrow">Numbers · 一点点积累</p>
+          <h2 class="sr-only">慢慢长大的小记</h2>
+        </div>
+        <span class="about-numbers_stamp" aria-hidden="true">
+          <b>用心生活</b>
+          <b>用心记录</b>
+        </span>
+      </header>
+
+      <ul class="about-numbers">
+        <li class="about-numbers_card" data-reveal tabindex="0" role="button" aria-pressed="false" aria-label="小记起始年份 2024，轻点卡片看背面">
+          <span class="about-numbers_idx" aria-hidden="true">01</span>
+          <div class="about-numbers_flip">
+            <div class="about-numbers_face about-numbers_face--front">
+              <span class="about-numbers_icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="5" width="18" height="16" rx="3.5"/>
+                  <path d="M8 2.8v4M16 2.8v4M3 10.2h18"/>
+                </svg>
+              </span>
+              <b class="about-numbers_value" data-count="2024">0</b>
+              <span class="about-numbers_label">小记起始年份</span>
+              <span class="about-numbers_hint">点我一下</span>
+            </div>
+            <div class="about-numbers_face about-numbers_face--back">
+              <b class="about-numbers_back-title">开始的那天</b>
+              <p class="about-numbers_back-text">2024 年春天，第一篇小记落在一场夜雨里。从那天起，细碎的日常终于有了归处。</p>
+              <span class="about-numbers_back-hint">再点一下 · 翻回正面</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="about-numbers_card" data-reveal data-reveal-delay="1" tabindex="0" role="button" aria-pressed="false" aria-label="运行天数，轻点卡片看更多">
+          <span class="about-numbers_idx" aria-hidden="true">02</span>
+          <span class="about-numbers_live" aria-hidden="true"><i></i>LIVE</span>
+          <div class="about-numbers_flip">
+            <div class="about-numbers_face about-numbers_face--front">
+              <span class="about-numbers_icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20.5S4 15.6 4 10.3C4 7.4 6.1 5.5 8.6 5.5c1.5 0 2.7.8 3.4 1.9.7-1.1 1.9-1.9 3.4-1.9 2.5 0 4.6 1.9 4.6 4.8 0 5.3-8 10.2-8 10.2z"/>
+                </svg>
+              </span>
+              <b class="about-numbers_value" data-since="2024-04-01">0<i class="stat-suffix">天</i></b>
+              <span class="about-numbers_label">运行天数</span>
+              <span class="about-numbers_hint">点我一下</span>
+            </div>
+            <div class="about-numbers_face about-numbers_face--back">
+              <b class="about-numbers_back-title">一天都没缺席</b>
+              <p class="about-numbers_back-text" data-days-fact>从 2024.04.01 出发，每天都在慢慢长，一天都没有缺席。</p>
+              <span class="about-numbers_back-hint">再点一下 · 翻回正面</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="about-numbers_card" data-reveal data-reveal-delay="2" tabindex="0" role="button" aria-pressed="false" aria-label="照片与短文 127 篇以上，轻点卡片看背面">
+          <span class="about-numbers_idx" aria-hidden="true">03</span>
+          <div class="about-numbers_flip">
+            <div class="about-numbers_face about-numbers_face--front">
+              <span class="about-numbers_icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 8.5h2.5L8.8 6h6.4l2.3 2.5H20a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18v-8A1.5 1.5 0 0 1 4 8.5z"/>
+                  <circle cx="12" cy="14" r="3.4"/>
+                </svg>
+              </span>
+              <b class="about-numbers_value" data-count="127">0<i class="stat-suffix">+</i></b>
+              <span class="about-numbers_label">照片与短文</span>
+              <span class="about-numbers_hint">点我一下</span>
+            </div>
+            <div class="about-numbers_face about-numbers_face--back">
+              <b class="about-numbers_back-title">都是些小事</b>
+              <p class="about-numbers_back-text">一顿热饭、一次散步、一朵开在路边的花——凡是被认真记住的，都不算白过。</p>
+              <span class="about-numbers_back-hint">再点一下 · 翻回正面</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="about-numbers_card" data-reveal data-reveal-delay="3" tabindex="0" role="button" aria-pressed="false" aria-label="累计阅读量 100 以上，轻点卡片看背面">
+          <span class="about-numbers_idx" aria-hidden="true">04</span>
+          <div class="about-numbers_flip">
+            <div class="about-numbers_face about-numbers_face--front">
+              <span class="about-numbers_icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3l1.9 5.4L19.3 10l-5.4 1.6L12 17l-1.9-5.4L4.7 10l5.4-1.6L12 3z"/>
+                  <path d="M18.3 15.6l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2z"/>
+                </svg>
+              </span>
+              <b class="about-numbers_value" data-count="100">0<i class="stat-suffix">+</i></b>
+              <span class="about-numbers_label">累计阅读量</span>
+              <span class="about-numbers_hint">点我一下</span>
+            </div>
+            <div class="about-numbers_face about-numbers_face--back">
+              <b class="about-numbers_back-title">谢谢你来过</b>
+              <p class="about-numbers_back-text">每一次点开，都是一次温柔的回访。小记因为有你，才慢慢长成了现在的样子。</p>
+              <span class="about-numbers_back-hint">再点一下 · 翻回正面</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell text-center">
+      <p class="eyebrow" data-reveal>Say hi · 打个招呼</p>
+      <h2 class="sr-only" data-reveal>想和我们说点什么？</h2>
+      <p class="lede lede--center" data-reveal data-reveal-delay="1" style="margin-top:8px">
+        无论是想聊一篇小记，还是想记录点什么，都欢迎随时找到我们。
+      </p>
+      <p style="margin-top:30px" data-reveal data-reveal-delay="2">
+        <a class="btn btn--solid" href="contact.html"><span>联系我们</span></a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell shell-wide footer-inner">
+    <a class="brand brand--footer" href="index.html" aria-label="戎糖小记 首页">
+      <img class="brand-logo" src="https://img.sugrong.com/assets/左logo.png" alt="戎糖小记 logo" width="3312" height="1067">
+    </a>
+    <nav class="footer-nav" aria-label="页脚导航">
+      <a href="index.html">首页</a>
+      <a href="works.html">我的作品</a>
+      <a href="about.html">关于我们</a>
+      <a href="contact.html">联系我们</a>
+      <a href="tools.html">工具箱</a>
+    </nav>
+    <p class="footer-note">© <span data-year>2025</span> 戎糖小记 · 戎戎的糖咪小站 · 用心生活，用心记录</p>
+  </div>
+</footer>
+
+</div><!-- /.page-wrap -->
+
+<script src="js/app.js?v=82" defer></script>
+<script src="js/about.js?v=9" defer></script>
+<script>window.__CF$cv$params={r:'a4ee87da6d50cecd',t:'MTc5MjczNTMyMw==',u:'01a1675a24ef768db53059f83cc3d251',ut:'YJ1me3aNQWEWSqZg0lfQ0cNHZKOZQn3zb1XInoc90bo-1792735323-1.2.1.1-OqRjDGPAz6XyKL0OXwz9EX40ir5yY.otlfbwkR6ywc8agPsstCF5G9pgmn.PjlDiX3DR7Gfp1bRQ1y6LfB_k69pw4fi45ZdyL_evElZ3G_Q',i:60};(function(){if(!document.body)return;var s=document.createElement('script');s.src='/cdn-cgi/challenge-platform/scripts/precursor/main.js';document.head.appendChild(s);})();</script></body>
+</html>

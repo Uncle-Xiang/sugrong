@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>戎糖小记 · 我的作品</title>
+<meta name="description" content="戎糖小记的作品集：日常记录、旅行见闻、美食与创作灵感，以及一万天倒计时页面。">
+<meta name="theme-color" content="#ffbcc5">
+<link rel="icon" href="https://img.sugrong.com/assets/左logo.png">
+<link rel="preconnect" href="https://img.sugrong.com">
+<link rel="dns-prefetch" href="https://img.sugrong.com">
+<link rel="stylesheet" href="css/common.css?v=10">
+<link rel="stylesheet" href="css/works.css?v=8">
+<script>
+  document.documentElement.classList.add('js');
+  /* 刷新即回到最顶部：禁用浏览器默认的滚动位置恢复 */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  /* 兜底：即使页面脚本异常，4.2s 后也强制撤下加载封面 */
+  window.setTimeout(function () {
+    if (document.body) document.body.classList.add('is-ready');
+  }, 4200);
+</script>
+<style>
+  /* 刷新加载特效·关键样式（内联）：外部样式表就绪前先遮住内容，
+     避免刷新瞬间闪出未动画的布局 */
+  html.js body:not(.is-ready) { overflow: hidden; }
+  html.js body:not(.is-ready) .page-wrap { opacity: 0; }
+  html.js .page-cover {
+    position: fixed; inset: 0; z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff8f9;
+    transition: opacity .45s ease, visibility .45s ease;
+  }
+  html.js body.is-ready .page-cover { opacity: 0; visibility: hidden; pointer-events: none; }
+  html:not(.js) .page-cover { display: none; }
+</style>
+</head>
+<body class="page-photo-top page-works">
+
+<div class="page-cover" aria-hidden="true">
+  <div class="page-cover_box">
+    <span class="page-cover_brand">戎糖小记</span>
+    <span class="page-cover_sub">Rongtang Log</span>
+    <span class="page-cover_bar"><i></i></span>
+  </div>
+</div>
+
+<div class="page-wrap">
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="shell shell-wide header-inner">
+    <a class="brand" href="index.html" aria-label="戎糖小记 首页">
+        <span class="brand-text">
+          <span class="brand-name">戎糖小记</span>
+          <span class="brand-en">Rongtang Log</span>
+        </span>
+    </a>
+    <nav class="nav" id="primaryNav" aria-label="主导航">
+      <ul class="nav-list">
+        <li><a class="nav-link" href="index.html">首页</a></li>
+        <li><a class="nav-link" href="works.html">我的作品</a></li>
+        <li><a class="nav-link" href="about.html">关于我们</a></li>
+        <li><a class="nav-link" href="contact.html">联系我们</a></li>
+        <li><a class="nav-link" href="tools.html">工具箱</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="打开菜单">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ==================== 页首大图 ==================== -->
+  <!-- 整屏照片首图：**保持静止，不做滚动收缩**。
+       works.jpg 里已经压了「我的作品 / My Works」的标题字，所以首图不再叠 HTML 文字，
+       只留一个给读屏和搜索引擎的 h1。
+       为什么没有 .card-hero_scroll / data-hero-progress：app.js 找不到这个容器就不写 --progress，
+       公共段 scale(1 - progress*0.4) 与图片反向放大也就都停在 1 —— 首图就是一屏高、原样随页面滚走。
+       哪天想改回收缩动画：把 .works-hero_box 换成 .card-hero_scroll + data-hero-progress，
+       并在里面再套一层 .card-hero_sticky 即可（公共机制详见 common.css「卡片式首图」段）。 -->
+  <section class="works-hero">
+    <h1 class="sr-only">戎糖小记 · 我的作品</h1>
+    <div class="card-hero_pad">
+      <div class="works-hero_box">
+        <div class="card-hero_bg works-hero_bg">
+          <div class="card-hero_bg-inner" data-hero-bg-inner>
+            <div class="card-hero_media">
+              <img class="card-hero_img" src="https://img.sugrong.com/assets/works.jpg" alt="我的作品页头图：戎戎抱着猫，旁边是百合与蝴蝶结" width="2048" height="1152" fetchpriority="high" decoding="async">
+            </div>
+            <div class="card-hero_scrim"></div>
+          </div>
+        </div>
+        <!-- 底部向下箭头 + 小字（和首页同款 .scroll-cue，滚过 120px 由 app.js 淡出） -->
+        <a class="scroll-cue works-hero_cue" id="scrollCue" href="#works" aria-label="向下浏览作品">
+          <span class="works-hero_cue-text">往下看看作品</span>
+          <svg viewBox="0 0 28 14" aria-hidden="true" focusable="false"><path d="M1 1l13 11L27 1"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 作品卡片 ==================== -->
+  <section class="section" id="works">
+    <div class="shell shell-wide">
+      <header class="section-head section-head--tight" data-reveal>
+        <p class="eyebrow">Works · 作品集</p>
+        <h2 class="sr-only">最近的作品</h2>
+        <p class="lede lede--center works-lede" data-reveal data-reveal-delay="1">
+          每篇小记都是一个值得记录的瞬间。点开卡片，可以读完整的图文<br>想找点什么的话，也可以按下面的类型和时间筛一筛。
+        </p>
+      </header>
+
+      <!-- 作品卡片：下面这五张是「离线兜底」，works.js 拿到接口数据后会整体替换掉。
+           之所以还留着：断网 / 接口挂了 / 没开 JS 的时候，作品页照样是一张完整的页面 -->
+      <p class="works-state" id="worksState" role="status" aria-live="polite"></p>
+
+      <!-- 筛选：两组片子（类型 / 时间），选项由接口数据自动生成；
+           没有可筛的维度时整块自动隐藏（works.js 控制） -->
+      <div class="works-filters" id="worksFilters" hidden>
+        <div class="works-filters_row" id="typeRow" role="group" aria-label="按类型筛选">
+          <span class="works-filters_label">类型</span>
+          <div class="works-chips" id="typeChips"></div>
+        </div>
+        <div class="works-filters_row" id="yearRow" role="group" aria-label="按时间筛选">
+          <span class="works-filters_label">时间</span>
+          <div class="works-chips" id="yearChips"></div>
+        </div>
+        <p class="works-filters_count" id="worksCount" aria-live="polite"></p>
+      </div>
+
+      <div class="cards" id="worksGrid">
+        <article class="card work-card" data-reveal>
+          <div class="card-media"><img src="https://img.sugrong.com/assets/gd1.jpg" alt="一万天倒计时页面预览" width="2048" height="1152" loading="lazy" decoding="async"></div>
+          <div class="card-body">
+            <p class="card-kicker">Page · 互动页面</p>
+            <h3 class="h3">倒计时</h3>
+            <p>秘密<br>期待那一天的到来...</p>
+            <div class="card-foot">
+              <a class="card-more" href="time.html">打开页面<span class="card-more-arrow">→</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card work-card" data-reveal data-reveal-delay="1">
+          <div class="card-media"><img src="https://img.sugrong.com/assets/gd2.jpg" alt="日常记录篇预览" width="2048" height="1152" loading="lazy" decoding="async"></div>
+          <div class="card-body">
+            <p class="card-kicker">Notes · 日常记录</p>
+            <h3 class="h3">日常记录篇</h3>
+            <p>把一天里最想留住的那个瞬间写下来，配上当时的光线。</p>
+            <div class="card-foot">
+              <a class="card-more" href="https://mp.weixin.qq.com/s/Ydptq01KOBoXR7nXBdMh0Q" target="_blank" rel="noopener">阅读文章<span class="card-more-arrow">→</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card work-card" data-reveal data-reveal-delay="2">
+          <div class="card-media"><img src="https://img.sugrong.com/assets/gd3.jpg" alt="节日记事篇预览" width="2048" height="1152" loading="lazy" decoding="async"></div>
+          <div class="card-body">
+            <p class="card-kicker">Festival · 节日记录</p>
+            <h3 class="h3">节日记事篇</h3>
+            <p>古韵不只在千年传说，也在粽叶飘香时温柔的那一瞬间。</p>
+            <div class="card-foot">
+              <a class="card-more" href="https://mp.weixin.qq.com/s/G9l5XR7qGsJamSHsWNJnXw" target="_blank" rel="noopener">阅读文章<span class="card-more-arrow">→</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card work-card" data-reveal>
+          <div class="card-media"><img src="https://img.sugrong.com/assets/gd4.jpg" alt="生日纪念篇预览" width="2048" height="1152" loading="lazy" decoding="async"></div>
+          <div class="card-body">
+            <p class="card-kicker">Birthday · 生日记录</p>
+            <h3 class="h3">生日纪念篇</h3>
+            <p>成长不只在悄然发生，也在举杯庆贺时闪闪发光的瞬间。</p>
+            <div class="card-foot">
+              <a class="card-more" href="https://mp.weixin.qq.com/s/bEFJzfNgTC4qrh-viOcD5w" target="_blank" rel="noopener">阅读文章<span class="card-more-arrow">→</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card work-card" data-reveal data-reveal-delay="1">
+          <div class="card-media"><img src="https://img.sugrong.com/assets/gd5.jpg" alt="待更新作品预览" width="2048" height="1152" loading="lazy" decoding="async"></div>
+          <div class="card-body">
+            <p class="card-kicker">Coming · 持续更新</p>
+            <h3 class="h3">敬请期待</h3>
+            <p>新的图文正在慢慢长大，做好了就会放到这里来。</p>
+            <div class="card-foot">
+              <span class="badge-soon">筹备中</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 关注引导 ==================== -->
+  <section class="section">
+    <div class="shell text-center">
+      <p class="eyebrow" data-reveal>Coming · 持续更新</p>
+      <h2 class="sr-only" data-reveal>敬请期待</h2>
+      <p class="lede lede--center works-lede" data-reveal data-reveal-delay="1">
+        想第一时间看到新的小记？扫一扫关注公众号，或直接给我们留言。
+      </p>
+      <p class="works-cta" data-reveal data-reveal-delay="2">
+        <a class="btn btn--solid" href="contact.html"><span>联系我们</span></a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell shell-wide footer-inner">
+    <a class="brand brand--footer" href="index.html" aria-label="戎糖小记 首页">
+      <img class="brand-logo" src="https://img.sugrong.com/assets/左logo.png" alt="戎糖小记 logo" width="3312" height="1067">
+    </a>
+    <nav class="footer-nav" aria-label="页脚导航">
+      <a href="index.html">首页</a>
+      <a href="works.html">我的作品</a>
+      <a href="about.html">关于我们</a>
+      <a href="contact.html">联系我们</a>
+      <a href="tools.html">工具箱</a>
+    </nav>
+    <p class="footer-note">© <span data-year>2025</span> 戎糖小记 · 戎戎的糖咪小站 · 用心生活，用心记录</p>
+  </div>
+</footer>
+
+</div><!-- /.page-wrap -->
+
+<script src="js/app.js?v=82" defer></script>
+<script src="js/works.js?v=4" defer></script>
+<script>window.__CF$cv$params={r:'a4ee87c49bc86fb5',t:'MTc5MjczNTMxOQ==',u:'01a1675a170370d1883f2ca7f40598cf',ut:'k3KoxnN7aJrnNZKddN9HacFqEj9RJKJGYylz6GVzli0-1792735319-1.2.1.1-lMxmw.1Jgk0EMuNh3r2KirvJbT1Wuc9M4gbzmyuPOH4WWC3tjq0eFeSTrwCnZwYJXDjrspMCIUn8Cyv9_d2QqZK8UkDfBzFD3j3_uEWk1_Q',i:60};(function(){if(!document.body)return;var s=document.createElement('script');s.src='/cdn-cgi/challenge-platform/scripts/precursor/main.js';document.head.appendChild(s);})();</script></body>
+</html>

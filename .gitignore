@@ -1,0 +1,30 @@
+# ---------- 本地工具 / 验证产物（不参与发布） ----------
+.workbuddy/
+verify/
+_extract.txt
+
+# ---------- Cloudflare 本地缓存与密钥（含账号 ID、邮箱，绝不能提交） ----------
+cloudflare/.wrangler/
+cloudflare/.dev.vars
+cloudflare/.env
+cloudflare/node_modules/
+cloudflare/.cf_token
+
+# ---------- 数据库备份 / 迁移中间产物（含用户留言，别提交） ----------
+cloudflare/backup-*.sql
+cloudflare/*.sql.bak
+cloudflare/wrangler.toml.bak-*
+
+# ---------- 系统垃圾 ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- 改名/迁移时的临时副本 ----------
+cloudflare/wrangler.toml.broken-*
+cloudflare/*.broken-*
+
+# ---------- 手动整理时挪错的副本 / 本地缓存 ----------
+plaintext/
+.wrangler/
+wrangler.toml.broken-*
